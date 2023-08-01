@@ -6,7 +6,8 @@ book:
   author: "Damon C. Roberts"
   chapters:
     - index.qmd
-    - intro.qmd
+    - ./chapter_1/index.qmd
+    - ./chapter_2/index.qmd
     - references.qmd
 
 bibliography: references.bib
