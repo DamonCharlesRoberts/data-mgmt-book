@@ -1,0 +1,47 @@
+project:
+  type: book
+
+book:
+  title: "A desk reference for political data preprocessing and management"
+  author: "Damon C. Roberts"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  titlepage-pdf:
+    documentclass: scrbook
+    coverpage: true
+    coverpage-theme:
+      title-fontsize: 50
+      author-fontstyle: ["textsc"]
+      author-style: "plain"
+      author-fontsize: 30
+      author-align: "right"
+      author-bottom: "2in"
+    fontsize: "12pt"
+    titlepage: "plain"
+    titlepage-theme:
+      author-style: "author-address"
+      affiliation-style: "none"
+      affiliation-sep: "newline"
+      elements: ["\\titleblock","\\authorblock","Last Compiled: 2023"]
+    fig-pos: "b"
+    toc: true
+    lof: true
+    include-in-header: 
+      text: |
+        \usepackage{makeidx}
+        \makeindex
+        \usepackage{lscape}
+        \newcommand{\blandscape}{\begin{landscape}}
+        \newcommand{\elandscape}{\end{landscape}}
+    include-after-body:
+      text: |
+        \printindex
+jupyter: python3
+execute:
+  cache: false
