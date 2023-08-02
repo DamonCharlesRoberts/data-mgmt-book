@@ -1,0 +1,9 @@
+# How to create an empty DuckDB file with the CLI
+
+# Open the terminal below (can do it with CTL + ` on Mac)
+
+# Open a Powershell, Bash, or ZSH terminal session
+
+# Type duckdb
+
+# Type .open my_first_duckdb_file.duckdb
