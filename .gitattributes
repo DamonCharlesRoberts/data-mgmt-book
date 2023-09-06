@@ -1,6 +1,6 @@
 *.tex linguist-detectable=false
 *.lua linguist-detectable=false
-*.qmd linguist-language=SQLPL
-*.tex linguist-language=SQLPL
-*.lua linguist-language=SQLPL
+*.qmd linguist-language=sql
+*.tex linguist-language=sql
+*.lua linguist-language=sql
 *.js linguist-vendored
