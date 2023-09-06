@@ -1,0 +1,17 @@
+---
+format: html
+---
+```{mermaid}
+%%| label: fig-workflow
+%%| fig-cap: A principled workflow for data management
+%%| fig-width: 6.5
+%%{init: {'theme':'base', 'themeVariables':{'primaryColor':'#ffffff', 'primaryBorderColor': '#000000'}}}%%
+graph TD;
+    A[Download CSV file] --> B[Create Participant ID Column]
+    B --> C[Pull out identifiable data -- keep Participant ID column in each subset of data]
+    C --> D[Store both subsets to two tables in a DuckDB file]
+    D --> E[Clean data in stored DuckDB file and store as new tables -- do not overwrite original two tables]
+    E --> F[Load data to perform analyses from updated tables in DuckDB file]
+    F --> G[Create a new DuckDB file with a copy of the cleaned tables used in the analyses and the table with de-identified original data]
+    G --> H[Share new DuckDB file with copied tables along with SQL script used for the cleaning of the data when submitting to journal]
+```

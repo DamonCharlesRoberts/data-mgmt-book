@@ -1,0 +1,660 @@
+# Common programming tools, their benefits and drawbacks
+
+Those performing quantitative analyses have an evolving and extensive list of tools available to them. Most of the time we consistently use one tool, however. There are many reasons for this. But one that may be familiar to many reading this book is that we are either told to learn `R` for a particular class. For others in academia, we may have started to use a particular tool because it became clearer and clearer that the types of statistical procedures you want to use have better support in one language versus another. 
+
+The reasons for us using one tool consistently makes total sense. It takes a lot of time and effort to use other tools. In some cases, it is even impossible if we have an instructor tell us we cannot use `Python` because they are teaching you `R` or if you have coauthors who only use `STATA` and you want to use `R`. However, as the book argues, we need to choose the tool that is right for the job. While many of the tools that I will discuss in this chapter and throughout the rest of the book are capable of performing data management and pre-processing tasks, not all of them are great or even good tools for it as later chapters in the book will make clear. This often means that we should use multiple tools in a single project -- there is no requirement that we use a single tool. 
+
+Keeping in mind the original purpose of the tool can help identify the features that the tool. As I introduce each of the tools that will be referenced throughout the rest of the book, I will make note of which tools were originally designed for which purpose. Hopefully, this can help give you a sense of which tools might be best for data management and pre-processing. Before providing introductions and providing a reference to set you up with each of the tools, I will first discuss some simple concepts underlying the way these tools work. This is not meant to provide you with a comprehensive understanding of these concepts nor for the tools. Rather, it is meant to ensure that you have enough understanding that you can follow along with the code examples provided throughout the book with at least one of the languages if you wish.
+
+To reiterate the purpose of the book, while I do provide a number of coding examples for multiple tools that I am about to introduce, the goal is to not necessarily to teach you the tools but to advance the argument that we can use any of these tools for the management or pre-processing of our academic projects, but that there are some tools that can handle some tasks better than others and that we should be using the tools most appropriate for the job. This means that the book offers many coding examples of how these tools work for different tasks so that we may directly compare and contrast their performance. These coding examples also offer the opportunity for the book to act as a reference material for those who would like to learn more about some of these tools, implement them in their work, and to see how to do particular data management and pre-processing tasks with those tools. 
+
+I am a realist though. Many of us are balancing our limited attention, time, and energy to do quantitative analysis. We often have deadlines and have to go with what is "good-enough." The spirit of the book is not judge or chastise people for the tools that anyone chooses to use, but to encourage everyone to truly choose their tool rather than to use what they thought they had to use. The hope is that the book will give you the information needed to make the choice between whatever tradeoffs you face with using these tools an easy choice. If you choose to change things up, even if it is reluctantly, then the hope is to provide you something to reference to make that change easier!
+
+## Measuring tool performance
+
+At the outset of the book, I kept mentioning the "efficiency, readability, and replicability" as being important features or a programming language. Here, I want to elaborate upon what I mean by these terms.
+
+The first feature is efficiency. When we think of efficiency, we may think of how much effort is being put into a task relative to how much is accomplished by completing the task. That is what we mean here too. While there are some really technical rabbit holes one may fall into among computer scientists when defining the efficiency of one's code and various metrics that we can calculate to quantify efficiency, when I refer to efficiency, all I am referring to is, "how much work is your computer putting in relative to the task?" For example, if it takes 20 seconds for a program we wrote on our computer to evaluate the expression `2+2`, then we would say that is pretty inefficient relative to me just doing it in my head. In that case, we would say that our program is pretty inefficient.
+
+When thinking about efficiency, there are more ways to measure than the time elapsed to calculate it like in my example of evaluating the expression `2+2` -- though this is perhaps one of the most common ways efficiency is measured. We can also think of it as how much memory our computer must commit to using. When purchasing a computer, you may hear someone discuss the `RAM` of the computer. While `RAM` is one type of memory, it is distinct from the Hard Drive on your computer that stores your files and software on it. One way that we can think of the `RAM` is the stuff that you have asked your computer to keep track of at any given point in time. `RAM` is active memory. Let me illustrate this through an analogy. You have probably memorized your phone number. Now say that I ask you to enter your phone number while I am also asking you to keep track of my phone number as I read it out loud to you. This is probably a lot to keep track of. You are not only being asked to keep track of 18 numbers all at once, but also the order in which those numbers appear and to keep track of which one is yours and which one is mine. This task might be hard. If you don't believe me, try it with a friend. The `RAM` simply refers to the amount of stuff you are asking your computer to keep track of and readily accessible within a split second. It is the calendar events, it is the web pages you have open on your browser, it is the contents of the song that you are playing, etc. The files that are currently closed on your computer are stored on your hard drive and you are not necessarily asking your computer to have that information readily accessible in a split second, not until you open that file, at least. While this is an oversimplification, `RAM` is another common metric that people think of when thinking about the efficiency of a program. If the program has **tons** of information stored in it, it will significantly slow down your computer as it is struggling to keep up with all of the things you are asking it to do -- just like it would slow you down to enter your phone number while I'm reading out my own to you at the same time.
+
+We want the evaluation of our code for our data management and pre-processing to be both quick and not too laborious for our computer to do. If we use code that is inefficient, it will take longer for us to be able to complete these tasks. Additionally, if we have a computer with more `RAM` and it works on our computer, it may not work on someone elses that has less `RAM`, or at least it will take much longer for them than it would for us. This is an issue I will come back to in a few paragraphs.
+
+A second important feature of a programming language and of our own code is the readability of it. In an ideal world, our code should be understandable even to those that are not familiar with the coding language we are using. One of the primary reasons in a research setting will be discussed shortly, but otherwise it makes it easier for us to detect errors in our code! If our code takes a lot of effort to understand what it is doing, then it will undoubtedly make it more difficult for us to catch a mistake that we have made. We want our code easy to understand so that we can catch our mistakes as well as others'. Now, we often do not have the luxury of jumping into any coding language and immediately understand what that code is doing, so it is often far-fetched to say that it should be readable to those who have no experience with the language, but we should still make it reasonably easy to get a sense of what is going on for everyone and super clear what is happening to those that are familiar with the language.
+
+Reproducibility is the last key feature that we should consider about code. I have hinted to it a few times. Reproducibility is a challenging but important endeavor for every research project that we work on. Reproducibility refers to the idea that anyone can take our documentation, repeat what we did, and be able to get the same results (or at least come to similar conclusions). How can we achieve reproducibility? Well, this is a topic that is still debated. But in general, we want the steps we take when managing and pre-processing our data to be something that someone else can follow relatively easily. Meaning that the documentation we have is accurate, our code is efficient so almost anyone can do it regardless of their particular computer's hardware, and that it is readable so that as many people as possible can understand the steps we took during the project.
+
+Later in this chapter, I will be evaluating the programming languages and common libraries used for data management and pre-processing on these three key features. It is important to note that these languages and libraries are not deterministically good or bad at achieving these goals. Often the person writing the code is at fault for writing inefficient, unreadable, and unreproducible code. However, there is no one "right" way to do anything. However, there are some programming languages and libraries that do not do much to encourage efficient, readable, and reproducible code. So, my evaluation of these languages and libraries on these features will be limited to their capacity to encourage the programmer to produce code that contains these features.
+
+## Concepts that transverse (most) tools
+
+Before, I move on, it is important to provide a brief explanation of how many of these tools work. Most of these languages are referred to as object-oriented programming languages (`OOP`). What this means is that we can store the results of some task in something called an `object`. So, say for example that I want to evaluate the expression, `2+2`. Once I have successfully determined that the result of the expression is `4`, I may want to store that result for later. In an `OOP`, I can store the result, `4`, in an `object`. 
+
+Now, say that I won't always be adding `2` and `2`, but I may instead be adding `2` and `3` or `10` and `2`. Instead, I want to quickly be able to evaluate a summative expression and be able to just plug in those numbers when I need to rather than have to keep rewriting `x+y`. This is a perfect candidate for a `function`. A function is just a piece of code that takes a pre-specified set of parameters, such as what integer `x` and `y` represent, and perform some task using those parameters. I can store the function to evaluate the summative expression of `x+y` and just pass in the integers that represent `x` and `y` as arguments, such as `x = 2` and `y = 2`. `OOP` allows me to store this function as an object just like I would the result of `2+2`. If you are still not quite sure what this looks like in practice, don't worry, you'll see later in the chapter!
+
+So, a function is some chunk of code that we can name and store as an object so that we do not have to reinvent the wheel over and over. While in the previous example of a function that does `x+y`, this may seem relatively not hard to do, but sometimes we have tasks that are extremely complex and take a lot of code to complete. So, functions represent stored code that take our arguments passed to the function's parameters as an input, does something to that input, and then returns some output. This is illustrated in @fig-function-visual below.
+
+```{mermaid}
+%%| label: fig-function-visual
+%%| fig-cap: Visualizing a function
+%%| fig-width: 6.5
+%%{init: {'theme':'base', 'themeVariables':{'primaryColor':'#ffffff', 'primaryBorderColor': '#000000'}}}%%
+graph LR;
+A["Input: <br/> x = 2, y = 2"] --> B["Function: <br/> x+y <br/> 2+2"]
+B --> C["Output: <br/> 4"]
+```
+
+Since we can save a function as an object thanks to `OOP`, we can store this object in what is called a library. A library refers to a collection of functions which all contain code designed to complete specific tasks. It essentially is a way to "package" multiple related functions together so that they can easily be shared and used by myself and others. 
+
+For example, I can create an object storing the function depicted in @fig-function-visual to evaluate a summative expression as `addition`. I can create another object that stores the function to evaluate a differencing expression as `subtraction`. I can put these two objects in a library, as depicted in @fig-library, and post them to a specialized website for others to download the library so that they can easily download those functions and easily use those functions without having to write their own functions or code.
+
+```{mermaid}
+%%| label: fig-library
+%%| fig-cap: Visualizing a library of functions
+%%| fig-width: 6.5
+%%{init: {'theme':'base', 'themeVariables':{'primaryColor':'#ffffff', 'primaryBorderColor': '#000000'}}}%%
+graph TD;
+A[library] --> B["Input: <br/> x = 2, y = 2"] 
+B --> C["Addition function: <br/> x+y <br/> 2+2"]
+C --> D["Output: <br/> 4"]
+B --> E["Subtraction function: <br/> x-y <br/> 2-2"]
+E --> F["Output: <br/> 0"]
+```
+
+In essence, libraries are just large files of code that someone else has written that let you use a particular function defined in that code so that you only need to provide some inputs (or arguments is what they are often called), the code does something to those inputs, and then it produces some output.
+
+How is all of this relevant to data management and pre-processing? As I mentioned, most of the languages that we are using here are `OOP`. Most of the time, we do not have to write our own code from scratch to manage or pre-process our data. We will have to write some code, but we are often interacting with functions that someone else has written and put together in a library for us to make our code much shorter. As these functions are written by others and we often are heavily dependent on functions from a library that someone else has written, we should not and cannot blindly rely on functions or libraries. We should not always assume that they are efficient, readable, nor enable reproducible code. Just because a programming language enables these features in our code, our experience with this is heavily dependent on the particular libraries that we choose to use within a particular programming language. That is why, in the next section and the book at large, I will be putting a lot of emphasis on not just the languages but also the common packages people use within each of these programming languages to pre-process and manage their data.
+
+## Programming language options, setup, and comparisons
+
+To re-iterate, there is no one absolute better programming language for someone to use to pre-process and manage their data. However, this book will focus on emphasizing and advocating for programming languages that are efficient, readable, and reproducible. The options that I include here are not comprehensive. One primary reason for a programming language to be excluded is due to it requiring a license to use. One popular software in the social sciences is `STATA`. While the programming language is not proprietary, you can only use `STATA` as a programming language in their proprietary software, and is therefore not reproducible. As a result, `STATA` is not discussed as an option in this book, though it is popular.
+
+Before, jumping into the installation and beginning to interact with the particular programming languages, I want to discuss the difference between installing the software for your computer to understand the language and the installation of the Interactive Developer's Environment (`IDE`) that provides nifty features to not just write the files but to interact with the code such as running the code in parts rather than as the whole file, debugging tools, and other features.
+
+These coding languages do not come standard on our computers. We have to install software that links the code already on our computer that it understands (often C++). This is the first thing we will need to download. Often this software will come with extremely basic `IDEs` that we can use to write code, save files that store the code, and run code, as either complete files or as smaller pieces of code such as a single line (interactively). These `IDEs` are often extremely basic and include really limited functionality. So the second think we often download is a more fully-fledged `IDE`.^[Also, for those interested, you can forego `IDEs` altogether and install a text editor such as `neovim`. While these are extremely customizable, they require quite a lot of comfort and sophistication with command line interfaces and require a lot of work to get them to a point where you can be semi-productive with them.] Some programs have their own popular `IDEs` such as `R` with `RStudio`. However, in the spirit of not being beholden to a single coding language for all tasks, I'll provide instructions on how to install a really popular do-it-all `IDE` called Visual Studio Code (`VSCode`). `VSCode` has extensions that enable you to be able to fully interact with all of these coding languages discussed below.
+
+### Installing an IDE, `VSCode`
+
+Again, if you want to install RStudio or some other language specific `IDE`, that is totally up to you! Here, in this book I will cover how to install an `IDE` that works for all of the languages in this book.
+
+First, go to [https://code.visualstudio.com/download](https://code.visualstudio.com/download). Then you will want to choose an installation that is appropriate for your operating system. Unless you are wanting to do some custom installation, you should choose the button just under the icon for the type of operating system that you use. You can then follow the standard installation steps you take to install software on your computer. You should not need to change any of the defaults to install `VSCode` on your system.
+
+Once successfully installed, then we can move onto installing the particular coding languages.
+
+### `R`
+
+`R` is an extremely popular coding language for statistical analysis among academics, analysts, and for a decent proportion of data scientists. There are a number of reasons for its appeal but chief among them is the robust community to help with the reporting of statistical analyses. Unlike some of the other option discussed below, `R` has a large number of options for packages that help with generating tables and figures for the results of complicated statistical analyses. This is not to say that the other programming languages do not have any support for data visualization and reporting, but rather that there are more options for popular types of data visualization and reporting in the scientific community. This makes it really popular among academics.
+
+More recent efforts have also made `R` popular for data management and pre-processing. As I will discuss later in Chapter 4, the `Tidyverse` is a suite of `R` libraries that include functions to manage data from a variety of different formats such as `STATA`, `JSON`, Excel, TSV, and CSV to name a few. It also includes an extremely popular library called `dplyr` which many use to help with data munging. These efforts are a relatively recent boost to `R`'s capability as a tool for managing and pre-processing data. This is not the only effort, however due to some limitations present in the `Tidyverse` ecosystem as well as some inherent challenges that come with `R`.
+
+#### Installation
+
+Installation of R is quite straightforward. The first thing that we will want to do is navigate to the `CRAN` website at [https://cran.r-project.org](https://cran.r-project.org). This website is the "Comprehensive R Archive Network" and is the default place that we not only install `R`, but we can often find and install many of the libraries (often referred to as packages by `R` users).
+
+Once on the webpage, we will want to follow the link to "Download R for" the operating system that we are using. So if you are using a Mac, then you will want to follow the link to the "Download R for macOS". Once clicking on the link, it will take you to a page listing different releases of R. You will want to follow the most recent one. At the time of writing this book, that would be `R version 4.3.1`. 
+
+:::{.callout-note}
+# For macOS users
+
+If you are installing `R` on a Mac, you cannot install any package of `R`. If you are using one of the newer Apple Silicon chips, then you should install the `R` package made for those using Apple silicon chips and not for Intel. For example, if you are trying to install `R` version 4.3.1, then you should follow the link `R-4.3.1-arm64.pkg` If you are using a Mac that has an Intel chip, then you should choose `R-4.3.1-x86_64.pkg`.
+:::
+
+Once you have clicked on the link, you should follow the normal steps you take to install software on your computer. You should not need to make any customizations to the installation (such as installation destination).
+
+#### Setting up `VSCode` with `R`
+
+If you want to use `R` with `VSCode`, getting them to work together is pretty straight forward! You will want to install an extension that enables `VSCode` to recognize `R` code and to know what to do with it when you run your `R` code. While you can install extensions directly in `VSCode`, we will go to [https://marketplace.visualstudio.com/VSCode](https://marketplace.visualstudio.com/VSCode). Once there, we can search "R". What should be the first option is an extension to work with `R` in `VSCode`. We can install that extension by clicking the "Install button". 
+
+Once installed, you may not be quite ready to run `R` in `VSCode` just yet. You should follow the steps in the "Getting Started" section of the page that you downloaded the extension from and view the extension's documentation for any extra requirements they may have for you to start running your `R` code in `VSCode`.
+
+### Illustration of `OOP` in `R`
+
+Going back to the discussion above about `OOP`, functions, and libraries in `R`. Here is some simple code to help give you an understanding of how `R` works. To follow along, you can open `VSCocde` and then create a new file called `my_first_r_file.R`. Since you are specifying that the file is an `R` file with the extension `.R`, `VSCode` will now expect to only see `R` code in that file.
+
+First, let me make a comment about comments in R! You should always add comments to your code. This helps with the readability and reproducibility of your code. Comments are incredibly useful in that they allow you to explain what your code is doing and can act as really useful documentation.
+
+To make a comment in `R`, you can simply put the hash or pound symbol at the start of any line in your `R` file. Then you can write freely. There are no requirements for what words you use or how you structure your sentences for lines when you've put a comment in front of them. For example:
+
+```{r}
+#| label: r-comments
+#| eval: false
+#| echo: true
+# This is a comment in R
+# Any characters that you place after a "#"
+# Will not be evaluated as code.
+```
+
+Now, let's evaluate my simple expression from above with `R`:
+
+```{r}
+#| label: r-addition
+#| eval: true
+#| echo: true
+2+2 # add 2 and 2 together
+```
+
+Once we have written this code, we can highlight the code and click the play button (sideways triangle) at the top. This will run the code. Another option is to use the keyboard shortcut "CMD/CTRL + RETURN/ENTER". This will open our `R` console at the bottom of our screen. The console is responsible for taking the code passed from our `R` file and actually doing the evaluation of it.
+
+We should see that the output is `4`. Great, that is exactly what we should expect. 
+
+Now, let's say that we want to take the result from this expression and use it later such as by doing `2+2+2`. Rather than typing out `2+2+2`, we can take advantage of the fact that `R` is an `OOP` language and store the result of our original expression into an object that I will call "result". The `<-` is called an assignment operator in R and it is used specifically for assigning the result of some expression to an object. Other programming languages that we encounter will use often just use `=` as the assignment operator. 
+
+Once I have created the "result" object, I will then take the object that I called "result" and will add two to it, then store that result into an object called "result_two". I can then see the value stored in "result_two" by using a function called print. We should expect that the result is `6` if everything worked correctly.
+
+```{r}
+#| label: r-objects
+#| eval: true
+#| echo: true
+result <- 2+2 # add 2 and 2 together, store it into an object called result
+result_two <- result + 2 # add 2 to result, store it into an object called result_two
+print(result_two) # show me the value of result_two
+```
+
+I'm not limited to adding a bunch of 2's together in R. What if, I want to do what I did above but with other numbers and don't want to continuously repeat myself. Well I can write a function and store that function to an object so that I can just reuse the same code over and over again.
+
+So, I am going to write a function that I am going to call "addition." This function will take two inputs that I am going to call `x` and `y`. These inputs can be any two integers that I want. Once I have provided the basic information about my function to `R`, I'll specify what I want the function to do with those inputs in the main block within the curly brackets. As you can see, I want to add `x` and `y` together and store it in a local object called `temp_result`. I will then `return` the the `result`. 
+
+```{r}
+#| label: r-addition-fxn
+#| eval: false
+#| echo: true
+# define a function called addition
+  #* take the parameters x and y
+  #* the arguments for x and y should be an integer
+addition <- function(x = 1, y = 1) {
+  # take the parameters x and y
+  # add them together
+  temp_result <- x + y
+  # return the temp_result object
+  # and forget the value for the object once returned
+  return(temp_result)
+}
+```
+
+So once I have defined this function, I can start using it!
+
+```{r}
+#| label: r-addition-result
+#| eval: false
+#| echo: true
+# use the addition function
+# to add 2 and 2 together
+# store the result of the function in an object called result
+result <- addition(x = 2, y = 2)
+# print the value of result
+print(result)
+# use the addition function
+# this time to add 10 and 10 together
+# store the result of the function in an object called result
+result <- addition(x = 10, y = 10)
+# print the value of result
+print(result)
+```
+
+There are plenty of subtleties in the code here that I won't go over as they are beyond the scope of the book. There are plenty of excellent discussions out there about `OOP` in `R` if you want to delve more into getting comfortable with writing functions in `R`. But, the main idea is that you can see that I can take the `addition` object as a function to reuse the code within the curly brackets to apply it to different inputs.
+
+As discussed before, there are plenty of functions that we might write that could be useful to share with others. To do this, we can take these functions and put them in a `library` and upload it to `CRAN`. Details about how to do this are also outside of the scope of this book, but thankfully there are plenty of great resources on how to do this too!
+
+`R` comes with a `base-r` library of functions that cover bare minimum needs for the users to work with the language. For example, we have already used multiple functions in the code above. For example, `print` took an input from us -- our object `result`, did something with it, and then printed out the value of our object. While the way that the `print` function knew to print out the value of `4` rather than to just print out "result" in our console is a whole other discussion about a concept called pointers that are also beyond the scope of the book, the `print` function had some underlying code that knew that `result` was an object and we wanted to print out the value that `result` represented.
+
+So, how can I access a library that someone else has written? It isn't too bad! There is a function that comes standard with `R`, in the `base-r` library, that allows us to access libraries uploaded to `CRAN`: `install.packages()`. With `install.packages()` all that we have to do is specify the name of the library we want to install, then when we can use those functions after loading them from the library that we've downloaded. ^[Functions from the `base-r` library automatically loads at the start of each `R` session. Functions from the libraries that do not come standard, the ones we had to install, require that we load the library at the start of an `R` session. Requiring that we load libraries at the start of each session ensures that we aren't loading a lot of junk libraries that we aren't using for our particular project but may have used for a different project. This keeps our `RAM` clearer and keeps our code more efficient.] Do not worry, there will be plenty of examples in the following chapters of this.
+
+:::{.callout-note}
+# How do I know the name of a library or whether a function exists?
+
+There is no one way that this happens. I often stumble across useful libraries and functions within those libraries in different places of the internet, from talking with others, etc. As you go along, you'll begin to get more comfortable finding out these things yourself.
+
+:::
+
+<!--
+### Common libraries in R for data management and pre-processing
+
+#### The dominance of the Tidyverse
+
+There are two main factions among `R` users: those that are adherents to `R` as intended by its creators and `R` as intended by `tidyverse` which is now almost synonymous with `R`. The `tidyverse` reflects a whole suite of packages to handle pretty much any task you need to complete in `R`. This is why the modern `R` language is essentially a whole different language than what it used to be before the `tidyverse`.
+
+So why has the `tidyverse` taken over? Well, the primary appeal of the `tidyverse` is the readability of the code. As you will see here in a minute of how to do basic data management and pre-processing with `tidyverse` and `non-tidyverse` packages, the syntax is much more readable and easy to read.
+
+The `tidyverse` has its critics -- with me as one of them, however. While the tidyverse provides a suite of libraries of functions that is heavily regulated by a core group of `tidyverse` developers, it is constantly evolving. The `tidyverse` is a massive suite of libraries. One key problem with the `tidyverse` is that any given library has a number of other interrelated libraries and functions that the library and its functions rely upon. This is referred to as a dependency. I often describe libraries in the `tidyverse` suite as "dependency hell" because there are just too many libraries that any single library borrows a function from. While in theory it is useful to have a seamless integration of a number of functions from different libraries, a change to a function or a depreciation of a library or a set of its functions often ends up breaking things in the library that you are using. The other problem is that this approach has tremendous consequences for efficiency. If I have to load 10 libraries to use 1 library, then this puts a lot of extra "junk" in our `RAM` that can slow down our code. Beyond efficiency concerns, reproducibility is another concern. The `tidyverse` has a core team of developers who are constantly working to improve the libraries in the `tidyverse`. While this is great -- because there is no guarantee that a developer will continue to improve their library, it can make things really sensitive. There are a massive number of libraries and even more functions in the `tidyverse`. With it consistently being developed and changed, this can cause problems where the results that you get are *heavily* dependent on the version of the library that you are using. This coupled with concerns about the sheer number of dependencies, it can make the `tidyverse` relatively sketchy.
+
+While `base-r` is useful, it is also quite limited in the functions that it offers. Therefore there are libraries that build upon the basic functionality provided by `base-r`. Some of these libraries use functions from `base-r` but some have even gone completely dependency-free by writing any and all functions in either the `Rust` or `C++` coding languages which are pretty much barely above machine code so they are extremely efficient. These packages do this to take advantage of the unparalleled efficiency of these languages and to avoid some of the efficiency bottlenecks that are present in `R`. While these packages improve the efficiency and reproducibility of your code -- as they are not dependency-laden and are also developed by those that are skilled enough to know how to write `C++` and `Rust` code to be ported to a library in a whole other language -- they are much less readable. As you'll see below, the code is quite a bit more tricky to follow. Though, there are some libraries like `polars` that are trying to take the good of the `extended-base-r-verse` and the good of the `tidyverse`. 
+
+Whichever you choose, you should keep the library's capacity to encourage efficiency, readability, and reproducibility in mind. Often these are in tension with one another, but there are some features like readability and reproducibility that you can improve with your own efforts.
+
+#### One great way to improve reproducibility - a virtual environment
+
+When you install a library, the default is to store the underlying code files for the library in the same folder as where you installed `R`. Often times, there is no documentation about what version of the library that you are using for a particular project -- you just use whatever is the most recent version that is in that `R` folder. As I mentioned before, your experience with a particular library, particularly a `tidyverse` library, can be heavily dependent on the version of the library that you are using. This creates problems for reproducibility as if someone has installed a different version of the package then you, their results and their ability to run your code may not be the same as it was for you.
+
+So, what do you do to increase reproducibility? Use a virtual environment! You can use the `renv` library to install, manage, and document the libraries and which versions of them you are using for a particular project. More specifically, what it does is it creates a contained sandbox of `R` as you are using it when you are working on a particular project within the folder you have saved on your computer specific for that project. It downloads the packages into that sandbox, makes sure that the version of that library is compatible with the functions of the other libraries you have installed, and creates a `.yaml` file that documents all of the packages needed to re-run the code for your project and the versions needed for each library. You can find more details about how to use it and about virtual environments on the `renv` website at: [https://rstudio.github.io/renv/](https://rstudio.github.io/renv/).
+
+#### For data management
+
+Recall that data management refers to storing and accessing your raw or cleaned data. The following libraries are useful for managing data stored in different formats. I will also note whether that particular library is from the `tidyverse` or not.
+
+##### `base-r`: A library with functions to access and store a number of different data formats
+
+##### `readxl`: A `tidyverse` library to access and store excel, csv, and tsv data
+
+##### `haven`: A `tidyverse` library to access and store STATA data
+
+##### `rjson`: A `tidyverse` library to access and store JSON data
+
+##### db: A library to access and store SQL data.
+
+##### duckdb: A library to access and store SQL data.
+
+#### For data pre-processing
+
+##### base-r: A library with functions to pre-process data in R
+
+##### dplyr: A `tidyverse` library to pre-process data in R
+
+##### duckdb: A library to pre-process data in R using SQL
+
+##### data.table: A library to pre-process data in R 
+
+##### polars: A library to pre-process data in R
+
+-->
+### `Python`
+
+`Python` is perhaps one of the most popular coding languages in the world. Unlike `R`, `Python` is used for more than just quantitative analysis. Beyond scientific reporting, it is used heavily in machine learning, artificial intelligence, and is also used relatively frequently in web application design and software engineering.
+
+It is less popular than `R` among academics in the social sciences primarily due to the fewer and less robust packages for reporting scientific quantitative analyses. This is beginning to change, however. As there has been an increased growth of the computational social science community which moves past regression-based quantitative analyses to examine text and images with machine learning approaches, the rich support for these tasks in `Python` have lead to more social scientists to use `Python`. This has also lead to more social scientists taking it upon themselves to work on libraries that are designed to help with the reporting and visualization of scientific results.
+
+`Python` is certainly growing in popularity outside academia but also within academia. It is a language that can certainly be helpful for those who may want to pursue careers outside of academia after completing their education or who would like to use things like machine learning in their research.
+
+Another attractive feature of `Python` is that it often has fewer concerns with efficiency, readability, and reproducibility than `R`, overall. `Python` was originally conceived as a language designed to make software engineering more accessible and easier to perform. Since the bulk of its users are software engineers, data engineers, or data scientists rather than academics, many of the libraries are designed with efficiency, readability, and reproducibility as central tenants of the libraries' designs. This is one reason why many places outside of academia often prefer a team using `Python` for their data analysis even though that `R` is specifically designed for statistical analyses. 
+
+To summarize, `Python` can be useful for increasing the efficiency, readability, and reproducibility of your code relative to `R`. It is a language with libraries that let you do more than just quantitative analysis which can be appealing to not learn a tool to complete only a super narrow set of tasks. It is one of the most preferred languages for those doing computational social science due to robust packages for machine learning and artificial intelligence. It is also a language that is in high-demand for many sectors and job titles outside of academia. However, it is less than ideal for scientific statistical computing and has fewer libraries than `R` for such tasks. 
+
+#### Installation
+
+The installation of `Python` is relatively straightforward. You will want to follow this link [https://www.python.org/downloads/](https://www.python.org/downloads/). 
+
+Once on the webpage to download the latest version of `Python` (at the time of writing this was `Python 3.11.4`). You can just click the yellow button to download it. Python should automatically detect the operating system that you are using and will download the proper installation file. If not, there is a link just below the yellow button that lets you choose which operating system you are using. 
+
+Once you have downloaded the installation file, you should do a default install and follow the normal installation steps you take for an application. You should not need to make any customizations to the installation (such as installation destination).
+
+#### Setting up `VSCode` with `Python`
+
+If you want to use `Python` with `VSCode`, getting them to work together is probably even easier than it is with `R`. You can go to [https://marketplace.visualstudio.com/VSCode](https://marketplace.visualstudio.com/VSCode). Once there, you can search "Python". The first option should be an extension called "Python" written by Microsoft. We can install that extension by clicking the "Install" button.
+
+Once installed, you may not be quite ready to run `Python` in `VSCode` just yet. You should follow the steps in the "Getting Started" section of the page that you downloaded the extension from and view the extension's documentation for any extra requirements they may have for you to start running your `Python` code in `VSCode`.
+
+#### Illustration of OOP in `Python`
+
+Like `R`, `Python` is also a `OOP` language. Here is some simple code to give you an understanding of how `Python` works. To follow along, you can open `VSCode` and then create a new file called `my_first_python_file.py`. Since you are specifying that the file is a `Python` file with the extension `.py`, VSCode will now expect to only see `Python` code in that file.
+
+Comments are the same in `Python` as they are in `R`. In any language, you should always add comments to your code to increase the readability and reproducibility of it.
+
+The symbol for a comment in `Python` is the same as in `R`. You can simply put the hash or pound symbol at the start of any line in your `Python` file. Then you can write freely. For example:
+
+```{python}
+#| label: py-comment
+#| eval: false
+#| echo: true
+# This is a comment in Python
+# Any characters that you place after a "#"
+# Will not be evaluated as code
+```
+
+Now lets go back to our evaluation of the expression of `2+2` as we did in `R`:
+
+```{python}
+#| label: py-simple-expression
+#| eval: false
+#| echo: true
+2+2 # add 2 and 2 together
+```
+
+Here you'll notice the code looks exactly the same as it did in `R`. Once we are doing more complicated tasks, the languages will certainly begin to look a lot different.
+
+Like in `R` when we want to evaluate this `Python` code, we can highlight the code and click the play button (sideways triangle) at the top of our `VSCode` window. This will run the highlighted code. Like it did with our `R` code, we should see a console open at the bottom of our `VSCode` window. Instead of it being an `R` console, it will now be a `Python` window even though the code looked exactly the same between the two. `VSCode` knew that you were running `Python` code because the code you were running should have been in a `.py` file instead of a `.R` file.
+
+Like we did before, say we want to store the result of our expression `2+2` into an object that we can use later. Since `Python` is also a `OOP` language, we can do this. Unlike `R`, the assignment operator in `Python` is `=` instead of `<-`. So we will take our expression and will assign the result to an object called "result".
+
+Once I have created the "result" object, I can use that object to add 2 to it and store that result in a object called "result_two" like I did in `R`. To see the value of the "result_two" object I can use a `print()` function.
+
+```{python}
+#| label: py-simple-object
+#| eval: true
+#| echo: true
+# add 2 and 2 together, store it in an object called result
+result = 2 + 2
+# add 2 to result, store it in an object called result_two
+result_two = result + 2
+# show me the value of result_two
+print(result_two)
+```
+
+Like I did with `R`, let's say that I want to do addition a few times but I do not want to have to keep writing `a + b` over and over again. So I decide to write a function so I can reuse that code over and over.
+
+I'll write a function that I am going to call "addition." This function will take two inputs that I will call `a` and `b`. Again, these inputs can take any integers that I want. Once I have provided the basic information about my function to `Python`, I'll specify what I want `Python` to do with those inputs in the main block of the function after the colon and when indented by 4 spaces.
+
+```{python}
+#| label: py-define-fxn
+#| eval: false
+#| echo: true
+# define a function called addition
+    #* take the parameters x and y
+    #* take the arguments for x and y, should be an integer
+def addition(x = 1, y = 1):
+    # take the parameters x and y
+    # add them together
+    temp_result = x + y
+    # return the temp_result object
+    # and forget the value for the object once returned
+    return temp_result
+```
+
+:::{.callout-note}
+# Notice the difference
+
+Unlike `R`, the main block of code for my function in `Python` is not within curly brackets. Instead, it is indented code. `Python` is extremely sensitive to the indentation in a way that `R` is much more flexible. In `Python` you should use 4 spaces for an indentation -- do not use the `tab` key as this can sometimes be an inconsistent number of spaces and may lead `Python` to throw you an error about improper indentation.
+
+How `Python` knows that the code for the function for the function is completed is once it sees a line that does not indent by four spaces. Once it notices that, it will go to the last consecutive line with four spaces and will consider the function's main block of code to end on that line.
+:::
+
+Now that I have defined the function, I can use it!
+
+```{python}
+#| label: py-demo-of-fxn
+#| eval: false
+#| echo: true
+# use the addition function
+# to add 2 and 2 together
+# store the result of the function in an object called result
+result = addition(x = 2, y = 2)
+# print the value of the result
+print(result)
+# use the addition function
+# this time to add 10 and 10 together
+# store the result of the function in an object called result
+result = addition(x = 10, y = 10)
+# print the value of result
+print(result)
+```
+
+As `Python` is also an `OOP` language, I am capable of taking the code within the addition function that is stored as an object called "addition" and am able to reapply that code within the function to different inputs.
+
+Like in `R`, I am able to use various functions that come with the standard installation of `Python`. I will want to install libraries containing nifty functions as my code becomes more complex, though. In the next chapter, I will provide concrete examples of how to install and work with some common libraries for data management. 
+
+### `Julia`
+
+```{r}
+#| label: jl-setup
+#| eval: true
+#| include: false
+# Need to setup julia
+library(JuliaCall)
+julia_setup()
+```
+
+Like `R`, `Julia` is specifically designed for scientific statistical computing. It is a much newer language than `R`, however. `Julia` has started to gain some traction in some areas of machine learning engineering, some circles of data science and in academia. It still remains relatively uncommon, however. The main reason that it remains relatively uncommon is how new it is. It is also much more dedicated to statistical computing than the other languages which makes it relatively narrow in the tasks that it can complete compared to `Python` and even `R`. 
+
+The appeal of `Julia` is that it is an extremely efficient and reproducible language. The language is not as bogged down as languages like `R` and `Python` which reduces a lot of problems. It also has built in support for virtual environments so that one does not have to jump through as many hoops to install, manage, and document the libraries that someone uses for their project.
+
+Julia also has some really interesting features such as allowing you to use scientific and greek symbols as object names. `Python` and `R` does not allow you to do this. While this might be a small feature for some, others it may be super useful. So there is that.
+
+In a time where people are wanting to publish papers faster, are using more data, and are dealing with concerns about how reproducible their results are, `Julia` certainly seems like a language that could eventually become extremely popular in academia. It is already gaining some success in many sectors of industry as a language that reduces the amount of time that analysts are spending to produce reports.
+
+#### Installation
+
+Thankfully, the installation of `Julia` is also quite straightforward. You will want to follow this link: [https://julialang.org/downloads/#download_julia](https://julialang.org/downloads/#download_julia).
+
+Once on the webpage to download the latest version of `Julia` (at the time of writing this was `Julia 1.9.2). If you are on Windows, you should follow the link to install the Windows 64-bit installer. If you are on a Mac with a non-intel processor, you should follow the link to install the macOS (Apple Silicon) 64-bit (.dmg). If you are on a Mac with a intel processor, then you should follow the link to install the macOS x86 (Intel or Rosetta) 64-bit (.dmg). If you are on linux, you should follow the most appropriate option for your setup.
+
+Once you have downloaded the installation file, you should do a default install and follow the normal installation steps you take for an application. You should not need to make any customizations to the installation (such as installation destination).
+
+#### Setting up VSCode with `Julia`
+
+Like the other languages, working with `Julia` in `VSCode` is not too hard to setup. You can go to [https://marketplace.visualstudio.com/VSCode](https://marketplace.visualstudio.com/VSCode). Once there, you can search "Julia". The first option should be an extension called "Julia". You can install the extension by clicking the "Install button".
+
+Once installed, you may not be quite ready to run `Julia` in `VSCode` just yet. You should follow the steps in the "Getting Started" section of the page that you downloaded the extension form and view the extension's documentation for any extra requirements they may have for you to start running your `Julia` code in `VSCode`.
+
+#### Illustration of `OOP` in `Julia`
+
+Like the other languages so far, `Julia` is also an `OOP` language. To follow along with my examples below, you can open `VSCode` and then create a new file called `my_first_julia_file.jl`. You are specifying the file as being a `Julia` file with the extension `.jl`.
+
+Like the other languages, you can add a comment to your file using the hash or pound symbol. Any characters that follow will not be evaluated by `Julia`. For example
+
+```{julia}
+#| label: jl-comment
+#| eval: false
+#| echo: true
+# This is a comment in Julia
+# Any characters that you place after a "#"
+# Will not be evaluated as code
+```
+
+Now let's evaluate the expression `2+2` in `Julia`:
+
+```{julia}
+#| label: jl-simple-expression
+#| eval: false
+#| echo: true
+2+2 # add 2 and 2 together
+```
+
+Like in the other languages, the code looks exactly the same. But once we start to do more complicated tasks, we will start to notice the differences in the syntax of the languages.
+
+Like in the other languages, if we want to evaluate this `Julia` code, we can highlight the code and click the play button (sideways triangle) at the top of our `VSCode` window. This will run the highlighted code.
+
+Unlike the other coding languages, instead of opening a console specific to that language, `Julia` will open an instance of the `Julia REPL`. It is not necessary to understand the differences between the two, but how you interact with them will look slightly differently. The reason for these differences is  that the goal of `Julia` is for the code to be interactively run as opposed to run as a whole file like is the common expectation with `Python` and to a lesser extent `R`. If you get an error from `VSCode` telling you that the `REPL` is in a different directory than the file, then you may want to go to the top of your `VSCode` window, click on "File", then click on "Open Folder", then choose the folder that you stored your `my_first_julia_file.jl` in. This then should solve the issue and the code should successfully run.
+
+Like we did with the other languages, say that we want to store the result of this into an object. We can do that. Like `Python`, the assignment operator in `Julia` is `=`. I will evaluate the expression `2+2` but store it in an object called "result."
+
+Once I have created the result object, I can use that object to add 2 to it and store that result in an object called "result_two" like I did in the other examples. Unlike the other coding languages, `Julia` should automatically print the value stored in my "result_two" object. If I wanted, I could also use a native `print()` function to print the value for "result_two".
+
+```{julia}
+#| label: jl-simple-objects
+#| eval: false
+#| echo: true
+# add 2 and 2 together, store it in an object called result
+result = 2 + 2
+# add 2 to result, store it in an object called result_two
+result_two = result + 2
+# show me the value of result_two
+print(result_two)
+```
+
+```{r}
+#| label: jlEval-simple-objects
+#| eval: true
+#| echo: false
+# add 2 and 2 together, store it in an objected called result
+julia_command("result = 2+2")
+# add 2 to result, store it in an objected called result_two
+julia_command("result_two = result + 2")
+# show me the the value of result_two
+julia_command("print(result_two)")
+```
+
+Like I did with the other languages, let's say that I want to change this to a function so that I do not have to keep repeating myself.
+
+I'll write a function that I will call "addition". The function will take the inputs `x` and `y`, which will be two integers I want to add together.^[Previously, I was able to name the parameters whatever I wanted, but `Julia` is specifically designed for scientific computing and so it is not as flexible.] Once I have provided the basic information about the function, I'll specify what I want `Julia` to do with those inputs. Like in `Python`, I will use indentation to indicate what code should be included with the function. This time I do not put a colon at the end of the basic information about the function. Unlike `Python`, I will explicitly define the end of the function. Whereas `Python` waits for the first line of code that is not indented to close the function, `Julia` has me type "end" where I want the function to end. Notice that the "end" is not indented.
+
+```{julia}
+#| label: jl-simple-fxn
+#| eval: false
+#| echo: true
+# define a function called addition
+    #* take the parameters x and y
+    #* take the arguments for x and y, should be an integer
+function addition(x,y)
+    # take the parameters x and y
+    # add them together
+    temp_result = x + y
+    # return the temp_result object
+    # and forget the value for the object once returned
+    return temp_result
+end
+```
+
+```{r}
+#| label: jl-eval-simple-fxn
+#| eval: false
+#| echo: false
+# define a function called addition
+  #* take the parameters x and y
+  #* take the arguments for x and y, should be an integer
+  #* and return the result
+julia_command(
+  "
+  function addition(x,y)
+      # take the parameters x and y
+      # add them together
+      temp_result = x + y
+      # return the temp_result object
+      # and forget the value for the object once returned
+      return temp_result
+  end
+  "
+)
+```
+
+```{julia}
+#| label: jl-using-fxn
+#| eval: false
+#| echo: true
+# use the addition function
+# to add 2 and 2 together
+# store the result of the function in an object called result
+result = addition(2,2)
+# print the value of the result
+print(result)
+# use the addition function
+# this time to add 10 and 10 together
+# store the result of the function in an object called result
+result = addition(10,10)
+# print the value of result
+print(result)
+```
+
+```{r}
+#| label: jl-eval-using-fxn
+#| eval: false
+#| echo: false
+# use the addition function
+# to add 2 and 2 together
+# store the result of the function in an object called result
+julia_command("result = addition(2,2)")
+# use the addition funciton
+# this time to add 10 and 10 together
+# store the result of the function in an object called result
+julia_command("result = addition(10,10)")
+```
+
+`Julia` is a little bit different than the other `OOP` languages we have used so far. It is `OOP`-enough, but not quite `OOP` like the other languages so far. As we saw here, we can have objects own our results, but we can't really make functions the same way we do with the other languages. There is a discussion that we have elaborating on all of these points that are rather niche, just know that we can do *some* `OOP` stuff in `Julia` but not in the same way as languages like `R` and `Python`.
+
+### SQL via Duckdb
+
+`SQL` is a language designed exclusively for data management and pre-processing. Rather than loading files to then work within active memory on your `RAM`, it is often used to interact with databases. `SQL` is an extremely common language and is widely used in many sectors. There are two key flavors of SQL: the open-source `PostgreSQL` and the proprietary Microsoft `MySQL`. These two flavors of `SQL` are not different versions of the `SQL` language but are more so dialects. 
+
+Traditionally databases are stored as servers that many computers and client-side servers. These devices can access the database server at the same time to both store new data and to be accessed for analysis from data engineers and analysts. There are local options, however.
+
+Academics have not implemented the use of `SQL` databases as a way to manage their data. As I will argue in the next chapter, I think that this is a missed opportunity for a number of reasons. One of the key reasons for academics not adopting SQL databases is that they are often not suited to the types of data and the traffic to add new and access that data that most database servers are designed to handle. This coupled with the fact that most database servers often require quite a lot of work to design, maintain, and to develop a sustainable architecture for -- this is often a data engineer's job.
+
+There are a number of local, as opposed to server, implementations of `SQL` databases that we can take advantage of for our research projects, however. To give a preview of the next chapter, while it requires some familiarity with the SQL language, these databases are much more secure due to the added levels of technical competence to access the data. That is, you cannot just click to open the file to view the data -- instead, you have to connect to the database (either as the server or as a local file) and then execute a query in SQL in order to view its contents. These databases are also designed to store and allow for users to quickly access massive amounts of data. As we are using larger and larger datasets for our projects, in terms of both variables and observations, this is a really helpful way to future-proof your skills so that you are not limited to software limitations imposed by Excel, CSVs, libraries from the languages we discussed earlier, or `RAM`. 
+
+To this last point and to balance the consideration that most researchers do not want to learn a lot about data engineering, one tremendous option that is easy to integrate with the current workflow for many academic researchers while reaping many of the benefits of using databases rather than files like CSVs is `DuckDB`.
+
+`DuckDB` is a tool that allows us to use `PostgreSQL` to store and access data stored in a local database file. In other words, it allows for us to access and store a database on our computer just as we would with a CSV file, but it does not require that we manage a server. `DuckDB` also allows for `lazy evaluation` which refers to the idea that you access your database only when you absolutely need to and that it only accesses the data in the database that you need rather than all of it. The use of a database increases data security and the last feature also allows for us to *very* efficiently handle large amounts of data regardless of the hardware specifications of our computer.
+
+`SQL` is a relatively easy language to learn. Much easier than the other languages used so far. This is because it is highly specialized for accessing data. This means that it does not require one to learn a whole lot of different things. Because of this, it also does not require the use of libraries or functions. It is also extremely readable as a language. The language has preset commands that you can pass to access the data, clean it, and to store it. Often times, it feels like how you would verbally say how you accessed your data, just without filler words.
+
+#### Installation
+
+`DuckDB` has libraries for `R`, `Python`, and `Julia`. These libraries allow for you to use functions that reduce the amount of SQL code you have to write. While this is useful, there are some challenges that I have run into with these libraries that have made it less than ideal. `DuckDB` is a new tool and not only are they trying to improve the tool, but they are also having to manage libraries for a number of other languages. As a result, it can create some pain points.
+
+If you would like to interact with `DuckDB` through the libraries in the other languages I've discussed, go for it! However, I will stick with `DuckDB` as implemented as a standalone tool rather than as implemented through their libraries in the languages we have discussed so far. This means that I do not need to worry about how up-to-date that particular library is relative to the standalone tool.
+
+To install `DuckDB` as this standalone tool, you will want to install it via the command line. To do this, navigate to the web address [https://duckdb.org/docs/installation/index](https://duckdb.org/docs/installation/index). From there, you can choose whether how you want to interact with `DuckDB`. For those that want to go with my route by using the standalone tool, you would choose the latest version tab (at the time of writing the latest release was 0.8.1). Then for the "Environment", you'd choose the "Command Line" tab. For package, be sure to choose the "Binary" tab. Then you would choose whatever operating system that you are interacting with such as macOS if you are on a Mac.
+
+Once you have gotten here, it will give you instructions for installation. For example if you choose macOS, the installation instructions would look like this:
+
+```{.bash}
+Homebrew: brew install duckdb
+
+Github binary: https://github.com/duckdb/duckdb/releases/download/v0.8.1/duckdb_cli-osx-universal.zip
+```
+
+If you see this, then you have two options. If you know what homebrew is, then you should be able to open your `Terminal` app and run `brew install duckdb`. Otherwise, then you can type this address into your web browser. This will download the Zip file. Once it is downloaded, you can open the file. It will automatically create a duckdb executable on your desktop. You can then right click on it, and open it with your `Terminal` app. If you are on Windows, your only option will be to download the zip file, open that zip file, then right click and open it with your `Terminal` app.
+
+You should see something like this in your `Terminal` app.
+
+```{.bash}
+v0.8.1 6536a77232
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+D 
+```
+
+This means that `DuckDB` has been successfully installed and is ready to go. You should not need to do this each time you want to work with `DuckDB`. We will be accessing `DuckDb` through the `VSCode` terminal (where we saw the `R` and `Python` consoles and `Julia`'s `REPL`.)
+
+#### An IDE for `DuckDB`
+
+While there is a `VSCode` extension for `DuckDB`, it is not an official extension created by the team at `DuckDB` and has pretty limited capabilities unless you are willing to pay $10 a month. I am not. So, instead, there is an `IDE` that you can run within your `VSCode` terminal at the bottom of the screen (where  your `R` and `Python`) consoles appear that is officially supported by the `DuckDB` team.
+
+The `IDE` is called `harlequin`. It is super nice because it allows you to copy and paste your `SQL` code into a Query editor, it shows you your table (dataset in database speak) and any results to you queries that you run.
+
+To install it, be sure to first install `Python` using the instructions provided earlier in the chapter. Then once you have done that, go to your `Terminal` application, and type `pipx install harlequin`. You now have your `IDE` to interact with a `DuckDB` database!
+
+#### Your first time with a `DuckDb` database
+
+First thing that we will do is go to the website for the American National Election Study and will download a CSV file of the timeseries data, import the CSV and make it a table in a `.duckdb` database file. We will then look at our data after storing it in the database. As I will discuss later in the book, `SQL` through `DuckDB` is not only efficient, readable, but it is reproducible in that I can download my CSV file and tansfer all of the data into my database without even needing to open the CSV file. It significantly reduces the chance of unknowingly hitting a key and changing some data or making some other mistake. The ANES Timeseries data includes all responses since they first started the survey until present day. Each study usually includes hundreds of variables and hundreds of survey responses. Therefore, the Timeseries file is massive with hundreds of columns and tens of thousands of rows. One problem with accessing and pre-processing the data with the libraries in the other languages is that it often requires the file to be opened and then loaded into the active `R`, `Python`, etc. session. This puts intense demands on your `RAM`. It also does not require me to use up my `RAM` by opening a program like Microsoft Excel (which does have limits on how large of a file it will open because of memory limitations). This is a huge advantage. These two features mean that I am less likely to make an undocumented change to my data as well as coming with significant efficiency boosts. Let me show you.
+
+First thing to do is to download the data. So, first go to [https://electionstudies.org/data-center/](https://electionstudies.org/data-center). Click on the "Time Series Cumulative Data File (1948-2020)" (may include years past 2020 if you are reading this a few years from the time of writing this). You will then go to "Download Data" on the left sidebar and click the link. You will be asked to sign-in in order to access the data. If you have an account with the ANES, sign in as usual. If you do not register for a free account. Once you have done that, it will bring you back to the page describing the cumulative data file. You should now see options to download a CSV, SPSS, STATA, or SYNTAX version of the data under the "Download Data" section. Download the CSV file. This will download a `.zip` file containing the codebooks and the data file as a `.csv` file. You will want to unzip the file.
+
+Once you have downloaded the CSV file, we should be ready to go. Open `VSCode`. Open a fresh Powershell, zsh, or bash terminal by using the command "CRTL(Mac)/Shift + `".
+
+Once you have started a terminal session, type `duckdb`. This should bring up something that looks like this:
+
+```{.bash}
+v0.8.1 6536a77232
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+D 
+```
+
+Once this has happened, you can type `open my_first_database.duckdb`. This will create a `DuckDB` database file as well as connecting you to the database. Once you have done that, you can close that terminal session and open a new one. Once you have a new terminal session, type in `harlequin my_first_database.duckdb`. This will open the `harlequin` `IDE` as well as create an empty `DuckDB` database file called `my_first_database`.
+
+Next, we should make a `.sql` file that we write our `SQL` code into so we have all of that information stored for documentation purposes. So in `VSCode`, you can create a new file by going to the top of your `VSCode` window and click "File", then click "New File". Type in `csv_to_table.sql`. This will open an empty `.sql` file.
+
+Now, we can write our `SQL` code to take the data in the ANES CSV file that we have downloaded and put it into our `DuckDB` database file that we just created as a table. To do this, we can write some SQL code:
+
+```{.sql}
+/* Take the CSV file I downloaded,
+  ... and make a table called anes_raw
+  ... with it.
+  Then store it in my database file.
+*/
+CREATE TABLE anes_raw AS /* Create a table called ANES raw with the contents...*/
+SELECT * /* select all of the columns */
+/* from my ANES's csv file */
+FROM read_csv_auto('~/Desktop/anes_timeseries_cdf_csv_20220916/anes_timeseries_cdf_csv_20220916.csv', all_varchar = true)
+/* now commit this table to the database file */
+/* tell it that I am done with my query with the semi-colon */
+COMMIT;
+```
+
+There are a few things to explain here. First, in `SQL` comments are started with `/*` and ended with `*/`. Since comments are explicitly started and ended, comments can span multiple lines without having to start each new line with `/*`. Next, I am going to use the commands `CREATE` and `TABLE` to say that I want to create a new table and I am going to call that new table `anes_raw`. Now that I have told `SQL` that I want to make a new table, I need to specify what the contents of that table is going to be. I indicate that by using the command `AS`. I then specify on a new line that I want to `SELECT` all columns (what the `*` represents) `FROM` the `.csv` file that I downloaded. Here I am not just specifying the name of that CSV file, but I also need to tell it where on my computer that CSV file is. In this case, I downloaded that CSV file and put it on my Desktop. The CSV file is still in the unzipped folder from earlier so I need to specify that too. Once I've passed the information about what CSV file I am talking about, I am going to pass an option to the `read_csv_auto` function made by `DuckDB` to make the loading of CSV files easy. This option `all_varchar = true` is me telling it to just load in all of the data as characters rather than trying to interpret them as numbers. Of course most of my variables are numbers and not characters so this will be a task for the pre-processing chapters. Finally, I will want to `COMMIT` this table to the database that I am currently connected to. To tell `SQL` that I am now done with my query, I will add a semicolon (;) at the very end of my query.
+
+Now, to run this code, I copy and paste the code into my `harlequin` Query Editor near the bottom of my `VSCode` window. I will then click "Run Query". You should now be able to go to the "Data Catalog" and see that in the my_first_duckdb_file connection under main, there is a table called anes_raw with tons of variables. Let's say that I want to get a preview of my data just to be extra sure everything worked. 
+
+```{.sql}
+/* check to see if transfer to database worked */
+
+SELECT * /* select all (*) columns */
+FROM anes_raw; /* from the anes_raw table */
+```
+Here, I am going to `SELECT` all of the columns `FROM` my anes_raw table. And since my `harlequin` session is still connected to the database from my `my_first_duckdb_file.duckdb` file, `SQL` will first check for a table called anes_raw and then will grab and display all of the data in that table. I can take that code, paste it into my "Query Editor" in `harlequin` and then click "Run Query". You will see pretty quickly that the "Query Viewer" will show that it is loading something like "50,000 of 68,224 records". This is a lot of data so it will take a while to display the data. But this is your first sign that everything worked. After a few seconds, you will see a table of your data from the ANES!
+
+## Closing out the chapter
+
+This was a lot of information! The goal was to offer a reference and to get you set up with at least one language so that you can follow along through the rest of the book. The rest of the book is designed to advance the argument that we have autonomy over the tools that we use and that to use a tool is a choice to use *that* tool for that particular task. We should be using the tool that is most effective at enabling us to write efficient, readable, and reproducible code. Sometimes this means we have to learn a new tool.
+
+The coding aspects that we will cover in the remainder of the book will be focused on providing examples as to how to use some of these languages and their popular libraries to manage and pre-process our data. This chapter set you up and gave you very basic introductions to how the languages work so that you can follow along with the coding examples in at least one language. However, the expectation is not that you can get all of the code to work and fully understand the intricacies of all of these languages, or even one. I would recommend that you read this book, follow along as best as you can, and then choose which language or language(s) you want to get a deeper understanding of. Then you can return to this book as a reference for when you are managing or pre-processing your data with one of these languages.
