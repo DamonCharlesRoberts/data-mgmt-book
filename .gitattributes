@@ -1,0 +1,5 @@
+* text=auto
+*.tex linguist-detectable=false
+*.qmd linguist-language=SQL
+src/_extensions/ linguist-vendored
+out/ linguist-vendored
