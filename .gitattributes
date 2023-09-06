@@ -2,4 +2,5 @@
 *.lua linguist-detectable=false
 *.qmd linguist-language=Python
 *.tex linguist-language=Python
+*.lua linguist-language=R
 *.js linguist-vendored
