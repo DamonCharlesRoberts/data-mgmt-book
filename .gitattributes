@@ -1,5 +1,6 @@
 *.tex linguist-detectable=false
 *.lua linguist-detectable=false
+*.sql linguist-detectable=true
 *.qmd linguist-language=sql
 *.tex linguist-language=sql
 *.lua linguist-language=sql
