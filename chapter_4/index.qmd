@@ -1,0 +1,116 @@
+# Data extraction and loading
+
+The last chapter presented an overview of a principled workflow for data processing in a research project. I include a diagram of this workflow in @fig-workflow for your reference. Though I recommend that you perform many of these tasks with `DuckDB`'s implementation of `SQL` goal of this chapter is to give you some examples of performing these steps with code in `Python`, `R`, and `Julia` too. The objective is to encourage researchers to use this principled data processing strategy, even if I am unable to convince them to use `SQL`. I also will provide coding benchmarks to demonstrate the efficiency of `DuckDB`'s implementation of `SQL` relative to the common libraries in `Python`, `R`, and `Julia`.
+
+{{< include ../assets/_workflow.qmd >}}
+
+# Practical examples with Waffle House data
+
+## Python
+
+```{python}
+#| label: load-waffle-house
+
+csv_path='./data/WaffleDivorce.csv'
+
+# Pandas
+import pandas as pd
+
+waffle_df = pd.read_csv(csv_path, delimiter=';')
+
+# Polars
+import polars as pl
+
+waffle_df = pl.read_csv(csv_path, separator=';')
+
+# Preview of data.frame
+waffle_df.head()
+```
+
+```{python}
+#| label: profile-waffle-house-load
+
+import timeit
+
+# Pandas
+def pandas_load(path=csv_path):
+    waffle_df = pd.read_csv(path, delimiter=';')
+    return waffle_df
+
+pandas_load_time = timeit.Timer('pandas_load()', 'from __main__ import pandas_load').timeit(number=100)
+
+# Polars
+def polars_load(path=csv_path):
+    waffle_df = pl.read_csv(path, separator=';')
+    return waffle_df
+
+polars_load_time = timeit.Timer('polars_load()', 'from __main__ import polars_load').timeit(number=100)
+```
+
+```{python}
+#| output: asis
+
+print('I use the `timeit` package to calculate the average amount of time it took `Pandas` and `Polars` to load the WaffleDivorce.csv file 100 times. It took `Pandas` on average {:.2f}'.format(pandas_load_time) + " seconds while it took `Polars` an average of {:.2f}".format(polars_load_time) + " seconds.")
+```
+
+## R
+
+```{r}
+#| label: waffle-house-load
+
+csv_path <- './data/WaffleDivorce.csv'
+
+# Base R
+
+waffle_df <- read.csv(csv_path, sep=';')
+
+# Tidyverse
+
+library(readr)
+
+waffle_df <- read_delim(csv_path, delim=';')
+
+head(waffle_df)
+```
+
+```{r}
+#| label: benchmark-waffle-house-load
+
+library(tictoc)
+
+# Base R
+
+waffle_df <- list()
+
+tic("Base R")
+for(i in range(100)) {
+    waffle_df[[i]] <- read.csv(csv_path, sep=';')
+}
+base_r_benchmark <- toc(log=TRUE, quiet=TRUE)
+
+
+# Tidyverse
+
+waffle_df <- list()
+
+tic("Tidyverse")
+for(i in range(100)) {
+    waffle_df[[i]] <- read_delim(csv_path, delim=';', show_col_types=FALSE)
+}
+tidyverse_benchmark <- toc(log=TRUE, quiet=TRUE)
+
+```
+
+```{r}
+#| output: asis
+
+sprintf("I use the `timeit` package to calculate the average amount of time it took `Base R` and `Tidyverse` to load the WaffleDivorce.csv file. It took `Base R` %.2f seconds while it took `Tidyverse` %.2f seconds.", (base_r_benchmark[['toc']][[1]] - base_r_benchmark[['tic']][[1]]), (tidyverse_benchmark[['toc']][[1]] - tidyverse_benchmark[['tic']][[1]]))
+```
+
+## Julia
+
+```{julia}
+#| label: load-waffle-divorce
+using CSV
+using DataFrames
+```

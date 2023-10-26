@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "dcr-data-mgmt-book"
+version = "0.1.0"
+description = ""
+authors = ["DamonCharlesRoberts <damon.charles.roberts@gmail.com>"]
+readme = "README.md"
+packages = [{include = "dcr_data_mgmt_book"}]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+pandas = "^2.1.1"
+polars = "^0.19.11"
+duckdb = "^0.9.1"
+jupyter = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
