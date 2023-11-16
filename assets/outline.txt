@@ -1,0 +1,109 @@
+# Outline
+
+- What is good about the workflow?
+  - Scalable
+  - Replicable
+
+
+Chapter 1: Introduction
+    - Introduction
+      - What is the point of the book?
+    - Discuss why we need the book
+      - What is the current state of things
+    - Introduce the principled data management workflow
+    - Outline what will be covered
+      - Define scope of tools used
+Chapter 2: Basics of R, Python, and DuckDB
+    - Introduction
+      - What the goal of the chapter is
+    - R
+    - Python
+    - Duckdb through the R and Python API's
+      - Point out that the rest of the book will use the Python API
+Chapter 3: Introducing the Principled Data workflow
+    - Introduction
+    - Discuss the current state of training in the social sciences with data management
+      - Do a relatively systematic search for syllabi for grad programs in methods
+      - Look through ICPSR and other methods training courses to see if there is something on data management and workflow
+    - Provide examples of common workflows in the social sciences
+      - Discuss why these examples demonstrate need for a principled workflow
+    - Discuss the principled workflow
+    - Transition into how we are going to tackle the different components
+Chapter 4: The basics of data extraction
+    - Introduction
+    - Loading CSV's and TSV's (profile all of these)
+      - R
+      - Python
+      - DuckDB
+    - Loading Parquet files (profile all of these)
+      - R
+      - Python
+      - DuckDB
+    - Loading Proprietary file types (profile all of these)
+      - R
+        - Excel
+        - STATA
+        - SPSS
+      - Python
+        - Excel
+        - STATA
+        - SPSS
+      - DuckDB
+        - Excel
+        - STATA
+        - SPSS
+    - Summary of how long all of these profilings took
+    - Comparison of how well these tools work across different file types and libraries
+Chapter 5: Advanced data extraction
+    - Introduction
+    - Dealing with Multiple excel sheets
+      - R
+      - Python
+      - DuckDB
+    - Dealing with JSON
+      - R
+      - Python
+      - DuckDB
+    - A quick aside on REGEX
+      - R
+      - Python
+      - DuckDB
+    - Dealing with PDF's
+      - R
+      - Python
+      - DuckDB
+Chapter 6: The basics of data transformation
+  - Introduction
+  - Merging
+  - Column-wise operations
+    - Index columns
+    - Aggregation
+    - Grouping
+  - Row-wise operations
+    - Case-when operations
+    - Generating new columns from existing columns (generator columns)
+    - Window functions
+Chapter 7: Advanced data transformation
+  - Introduction
+  - Functionalizing transformation
+  - Unit testing and validation
+  - Optimization (vectorization and parallelization)
+  - Identifying and dealing with missing data
+Chapter 8: Basics of data loading
+  - Introduction
+  - Loading data for analysis
+  - Making further adjustments to your data
+Chapter 9: Advanced data loading
+  - Introduction
+  - Replication
+    - Documentation is key
+    - Packaging is key
+  - Distributing your data
+Chapter 10: A set of case studies
+  - Introduction
+  - ANES
+  - GSS
+  - CES
+  - A fictional panel study
+  - Federal Judiciary Hearings
+Chapter 11: Conclusions

@@ -1,3 +1,6 @@
+# Quarto files
 /.quarto/
-
+# VSCode Files
 /.luarc.json
+# Files I want to ignore
+data/
