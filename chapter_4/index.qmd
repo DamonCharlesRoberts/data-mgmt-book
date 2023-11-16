@@ -201,7 +201,7 @@ duckdb_load_time = timeit.repeat('polars_load()', 'from __main__ import polars_l
 ```{python}
 #| output: asis
 #| echo: false
-print(f"I use the `timeit` package to calculate the average amount of time it took the `DuckDB` API in `Python  to load the main table from the WaffleDivorce.DB 100 times. It took `DuckDB` on average {mean(duckdb_load_time):.2e} (Std. Deviation = {stdev(duckdb_load_time):.2e}) seconds.")
+print(f"I use the `timeit` package to calculate the average amount of time it took the `DuckDB` API in `Python`  to load the main table from the WaffleDivorce.DB 100 times. It took `DuckDB` on average {mean(duckdb_load_time):.2e} (Std. Deviation = {stdev(duckdb_load_time):.2e}) seconds.")
 ```
 
 ```{python}
