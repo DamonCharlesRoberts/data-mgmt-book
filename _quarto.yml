@@ -9,6 +9,7 @@ book:
     - ./chapter_1/index.qmd
     - ./chapter_2/index.qmd
     - ./chapter_3/index.qmd
+    - ./chapter_4/index.qmd
     - references.qmd
 
 bibliography: references.bib

@@ -1,116 +1,212 @@
-# Data extraction and loading
+# Data extraction
+```{python}
+#| label: python-setup-block
+#| include: false
+
+# Load packages
+import duckdb as db
+import pandas as pd
+import polars as pl
+import timeit
+from statistics import mean, stdev
+from random import seed
+
+# Set seed
+seed(121022)
+
+# Define location of csv
+csv_path='../data/WaffleDivorce.csv'
+
+# Connect to database
+
+con = db.connect('../data/WaffleDivorce.db')
+con.execute(
+    '''
+        CREATE OR REPLACE TABLE 
+        main
+        AS SELECT *
+        FROM read_csv_auto('../data/WaffleDivorce.csv')
+
+    '''
+)
+```
+
+```{r}
+#| label: r-setup-block
+#| include: false
+# Load libraries
+
+library(tictoc)
+library(readr)
+
+# Specify Path of CSV
+
+csv_path <- '../data/WaffleDivorce.csv'
+```
 
 The last chapter presented an overview of a principled workflow for data processing in a research project. I include a diagram of this workflow in @fig-workflow for your reference. Though I recommend that you perform many of these tasks with `DuckDB`'s implementation of `SQL` goal of this chapter is to give you some examples of performing these steps with code in `Python`, `R`, and `Julia` too. The objective is to encourage researchers to use this principled data processing strategy, even if I am unable to convince them to use `SQL`. I also will provide coding benchmarks to demonstrate the efficiency of `DuckDB`'s implementation of `SQL` relative to the common libraries in `Python`, `R`, and `Julia`.
 
 {{< include ../assets/_workflow.qmd >}}
 
-# Practical examples with Waffle House data
+## Practical examples with Waffle House data
 
-## Python
+### Python
 
 ```{python}
-#| label: load-waffle-house
-
+#| label: python-load-waffle-house
+#| eval: false
+# Define location of csv file
 csv_path='./data/WaffleDivorce.csv'
 
 # Pandas
+    #* Import Pandas
 import pandas as pd
-
+    #* Load CSV
 waffle_df = pd.read_csv(csv_path, delimiter=';')
 
 # Polars
+    #* Import Polars
 import polars as pl
-
+    #* Load CSV
 waffle_df = pl.read_csv(csv_path, separator=';')
 
-# Preview of data.frame
+# Preview of dataframe
 waffle_df.head()
 ```
 
 ```{python}
-#| label: profile-waffle-house-load
-
-import timeit
-
+#| label: profile-python-waffle-house-load
+#| include: false
 # Pandas
+    #* Define a function to be ran through
 def pandas_load(path=csv_path):
     waffle_df = pd.read_csv(path, delimiter=';')
     return waffle_df
-
-pandas_load_time = timeit.Timer('pandas_load()', 'from __main__ import pandas_load').timeit(number=100)
+    #* Repeat through the defined function 100 times and make list of time taken
+pandas_load_time = timeit.repeat('pandas_load()', 'from __main__ import pandas_load', number=1, repeat=100)
 
 # Polars
+    #* Define a function to be ran through
 def polars_load(path=csv_path):
     waffle_df = pl.read_csv(path, separator=';')
     return waffle_df
-
-polars_load_time = timeit.Timer('polars_load()', 'from __main__ import polars_load').timeit(number=100)
+    #* Repeat through the defined function 100 times and make a list of time taken
+polars_load_time = timeit.repeat('polars_load()', 'from __main__ import polars_load', number = 1, repeat=100)
 ```
 
 ```{python}
 #| output: asis
-
-print('I use the `timeit` package to calculate the average amount of time it took `Pandas` and `Polars` to load the WaffleDivorce.csv file 100 times. It took `Pandas` on average {:.2f}'.format(pandas_load_time) + " seconds while it took `Polars` an average of {:.2f}".format(polars_load_time) + " seconds.")
+#| echo: false
+print(f"I use the `timeit` package to calculate the average amount of time it took `Pandas` and `Polars` to load the WaffleDivorce.csv file 100 times. It took `Pandas` on average {mean(pandas_load_time):.2e} (Std. Deviation = {stdev(pandas_load_time):2e}) seconds while it took `Polars` an average of {mean(polars_load_time):.2e} (Std. Deviation = {stdev(polars_load_time):.2e}) seconds.")
 ```
 
-## R
+### R
 
 ```{r}
-#| label: waffle-house-load
-
-csv_path <- './data/WaffleDivorce.csv'
-
+#| label: r-waffle-house-load
+#| eval: false
 # Base R
-
+    #* Load CSV file
 waffle_df <- read.csv(csv_path, sep=';')
 
 # Tidyverse
-
+    #* Load readr
 library(readr)
-
+    #* Load CSV file
 waffle_df <- read_delim(csv_path, delim=';')
 
+# Preview dataframe
 head(waffle_df)
 ```
 
 ```{r}
-#| label: benchmark-waffle-house-load
-
-library(tictoc)
-
+#| label: profile-r-waffle-house-load
+#| include: false
 # Base R
-
-waffle_df <- list()
-
-tic("Base R")
-for(i in range(100)) {
-    waffle_df[[i]] <- read.csv(csv_path, sep=';')
+    #* Clear tictoc log
+tic.clearlog()
+    #* Profiling each step of this process
+for(i in 1:100) { # repeat the following 100 times
+    tic(i) # start timer
+    waffle_df <- read.csv(csv_path, sep=';') # load the csv
+    waffle_df # return the result of it
+    toc(i, quiet=TRUE) # stop timer
 }
-base_r_benchmark <- toc(log=TRUE, quiet=TRUE)
-
+base_r_benchmark_log <- tic.log(format=FALSE) # log how long this loop took
+base_r_benchmark <- unlist(lapply(base_r_benchmark_log, function(x) x$toc - x$tic))
 
 # Tidyverse
-
-waffle_df <- list()
-
-tic("Tidyverse")
-for(i in range(100)) {
-    waffle_df[[i]] <- read_delim(csv_path, delim=';', show_col_types=FALSE)
+    #* Clear tic toc log
+tic.clearlog()
+    #* Profiling each step of this process
+for(i in 1:100) { # repeat the following 100 times
+    tic(i) # start timer
+    waffle_df <- read_delim(csv_path, delim=';', show_col_types=FALSE) # load the file time
+    waffle_df # return the result of it
+    toc(i, quiet=TRUE) # stop timer
 }
-tidyverse_benchmark <- toc(log=TRUE, quiet=TRUE)
-
+tidyverse_benchmark_log <- tic.log(format=FALSE) # log how long this loop took
+tidyverse_benchmark <- unlist(lapply(tidyverse_benchmark_log, function(x) x$toc - x$tic))
 ```
 
 ```{r}
 #| output: asis
-
-sprintf("I use the `timeit` package to calculate the average amount of time it took `Base R` and `Tidyverse` to load the WaffleDivorce.csv file. It took `Base R` %.2f seconds while it took `Tidyverse` %.2f seconds.", (base_r_benchmark[['toc']][[1]] - base_r_benchmark[['tic']][[1]]), (tidyverse_benchmark[['toc']][[1]] - tidyverse_benchmark[['tic']][[1]]))
+#| echo: false
+cat(
+    "I use the `tictoc` package to calculate the average amount of time it took `Base R` and `Tidyverse` to load the WaffleDivorce.csv file 100 times. It took `Base R` an average of ", format(mean(base_r_benchmark), digits=3, scientific=TRUE), " (Std. Deviation = ", format(sd(base_r_benchmark), digits=3, scientific=TRUE), ") seconds while it took `Tidyverse` an average of ", format(mean(tidyverse_benchmark), digits=3, scientific=TRUE), " (Std. Deviation = ", format(sd(tidyverse_benchmark), digits=3, scientific=TRUE), ") seconds per attempt to load the file."
+    , sep=""
+)
 ```
 
-## Julia
+### DuckDB via Python API
 
-```{julia}
-#| label: load-waffle-divorce
-using CSV
-using DataFrames
+```{python}
+#| label: sql-load-waffle-house
+#| eval: false
+# Import the DuckDB library
+import duckdb as db
+
+# Use the Python API for DuckDB to connect to the database
+con = db.connect('./data/WaffleDivorce.db')
+
+# Use the connection to load the dataset as a Polars DataFrame
+waffle_df = con.execute(# Execute the following SQL query ...
+    '''
+        SELECT * -- select all of the columns 
+        FROM main -- from the table called 'main'
+    '''
+).pl() # ... then store the result as a polars dataframe
+
+# Preview the dataframe
+waffle_df.head()
+```
+
+```{python}
+#| label: sql-profile-waffle-house-load
+#| include: false
+# Polars
+    #* Define a function to be ran through
+def duckdb_load(path=csv_path):
+    waffle_df = con.sql(
+        '''
+        SELECT *
+        FROM main
+        '''
+    ).pl()
+    return waffle_df
+    #* Repeat the defined function 100 times and make a list of time taken
+duckdb_load_time = timeit.repeat('polars_load()', 'from __main__ import polars_load', number = 1, repeat = 100)
+```
+
+```{python}
+#| output: asis
+#| echo: false
+print(f"I use the `timeit` package to calculate the average amount of time it took the `DuckDB` API in `Python  to load the main table from the WaffleDivorce.DB 100 times. It took `DuckDB` on average {mean(duckdb_load_time):.2e} (Std. Deviation = {stdev(duckdb_load_time):.2e}) seconds.")
+```
+
+```{python}
+#| label: close-db-connection
+#| include: false
+# Close the duckdb connection
+con.close()
 ```
