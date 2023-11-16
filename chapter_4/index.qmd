@@ -1,20 +1,26 @@
+---
+jupyter: python3
+---
 # Data extraction
 ```{python}
 #| label: python-setup-block
 #| include: false
 
 # Load packages
+
+import timeit
 import duckdb as db
 import pandas as pd
 import polars as pl
-import timeit
 from statistics import mean, stdev
 from random import seed
 
 # Set seed
+
 seed(121022)
 
 # Define location of csv
+
 csv_path='../data/WaffleDivorce.csv'
 
 # Connect to database
