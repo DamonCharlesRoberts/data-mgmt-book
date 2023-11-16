@@ -1,7 +1,7 @@
 ---
 jupyter: python3
 ---
-# Data extraction
+# The basics of data extraction
 ```{python}
 #| label: python-setup-block
 #| include: false
@@ -19,22 +19,9 @@ from random import seed
 
 seed(121022)
 
-# Define location of csv
-
-csv_path='../data/WaffleDivorce.csv'
-
 # Connect to database
 
-con = db.connect('../data/WaffleDivorce.db')
-con.execute(
-    '''
-        CREATE OR REPLACE TABLE 
-        main
-        AS SELECT *
-        FROM read_csv_auto('../data/WaffleDivorce.csv')
-
-    '''
-)
+con = db.connect('../data/2020-anes/anes.db')
 ```
 
 ```{r}
@@ -44,25 +31,45 @@ con.execute(
 
 library(tictoc)
 library(readr)
-
-# Specify Path of CSV
-
-csv_path <- '../data/WaffleDivorce.csv'
 ```
 
-The last chapter presented an overview of a principled workflow for data processing in a research project. I include a diagram of this workflow in @fig-workflow for your reference. Though I recommend that you perform many of these tasks with `DuckDB`'s implementation of `SQL` goal of this chapter is to give you some examples of performing these steps with code in `Python`, `R`, and `Julia` too. The objective is to encourage researchers to use this principled data processing strategy, even if I am unable to convince them to use `SQL`. I also will provide coding benchmarks to demonstrate the efficiency of `DuckDB`'s implementation of `SQL` relative to the common libraries in `Python`, `R`, and `Julia`.
+The last chapter presented an overview of a principled workflow for data processing in a research project. I include a diagram of this workflow in @fig-workflow for your reference. This chapter will focus on the first part of the workflow: data extraction. When discussing data extraction, I am referring to the idea that you are taking raw data outputs from some source and are converting it into a usable tabular format. In this chapter, we are going to cover common data formats such as CSV and TSV files, Parquet files, and proprietary file types such as Microsoft's XLSX, STATA's DTA, and SPSS' SAV files.
 
 {{< include ../assets/_workflow.qmd >}}
 
-## Practical examples with Waffle House data
+Though I recommend that you perform many of these tasks with `DuckDB`'s implementation of `SQL` goal of this chapter is to give you some examples of performing these steps with code in `Python`, and `R` as well. The objective is to encourage researchers to use this principled data processing strategy, even if I am unable to convince everyone to use `SQL`. I also will provide coding benchmarks to demonstrate the efficiency of `DuckDB`'s implementation of `SQL` relative to the common libraries in `Python`, and `R`.
 
-### Python
+## Data extraction
+
+What is data extraction? Data extraction is a task that every researcher engages in. While many may think that it is a easy process, the reality is that in *some* cases data extraction is an easy process. When working with pre-compiled datasets, data extraction can certainly be an easy process. You can download some file and then load it into your statistical software of choice. However, even when you have a pre-compiled dataset, this process can still be quite challenging.
+
+As the scale and the number of types of data that social scientists consider for their projects increases, data extraction steps are less standard and are orders of magnitude more complicated. In this chapter, we are focusing on data sets that have already been compiled, are in a tabular format, and are relatively small (thousands of rows and a couple of hundred columns). However, when we are working with raw data that are not in tabular format already -- such as reading text from PDF files -- or contains millions of observations for thousands of variables, data extraction is an extremely difficult process and choosing a tool that is responsive to scalability and facilitate documentation are imperative. The next chapter will provide examples of some of these more complicated features. However, the remainder of this chapter will be focused on providing simple and common examples of the data that social scientists will want to extract.
+
+## Extracting data from Separated-Value files
+
+Separated-value files are quite common for researchers. These files refer to those where we separate the different cells (or pieces of data) by some delimiter. The most common that we interact with are CSV files which refer to a separated-value file where the cells are separated by commas, `,`. But, there are many others. Some of us may have experience with tab separated-value files, `TSV`.
+
+Loading separated-value files is a common data extraction task that many experienced researchers are familiar and comfortable with. Often times, to execute  the code for data extraction takes milliseconds once you have the dataset's separated-value file downloaded on your computer for many common datasets we encounter in the social sciences.
+
+Since CSV files are such a common file to extract our data from, let's start there. The CSV file I am working with in these examples is a dataset that has recorded the amount of Waffle Houses in a particular state and information about the rate of marriages and divorces in that same state. This is a relatively small dataset as it is $50\times13$ (50 rows and 13 columns). I've included this CSV file in the supplementary materials for the book online. For those interested in going straight to the source for the data, you should reference @mcelreath_statistical_2020.
+
+### `Python`
+
+In `Python` there are two dataframe management libraries that I will consider. Of course, there are many more than this, but here I want to focus on `Pandas` which is by far one of the most popular libraries in `Python`. I will also discuss `Polars` which is newer and not as adopted as `Pandas`. The benefit of looking into `Polars` is that it is extremely performant. The `Polars` library is a API for `Polars` which is written natively in `Rust` (an increasingly popular alternative to compiled languages such as `C++`).
+
+Once I downloaded the dataset, I put it in my project folder called `data/`. I first want to specify the location of that particular file. It is not sufficient for me to just tell my computer to look for a file called `WaffleDivorce.csv` because it would take an extremely long time for my computer to look through millions of files for a matched name. The other problem of not being a bit more specific about the location of the file is that I may have multiple files on my computer called `WaffleDivorce.csv` but for other projects. If you have ever looked through your computer and have found multiple files called `Untitled1.docx`, this is a pretty common experience that many of us have. Just as you'd be confused if you need to open `Untitled1.docx` on your Desktop or in a specific folder somewhere else on your computer, so is your computer if you aren't a bit more specific about *where* on your computer to find the file. So, in this case, I am going to tell it to find the file in my current project (`./`) that is within my `data/` folder. So, the specific path to the CSV is `./data/WaffleDivorce.csv`. On line 2, you will see that I store this path for repeated use in an object called `csv_path`.
+
+Once, I have specified the path to my file by placing it in an object called `csv_path`, I can then load the `Pandas` library by writing `import pandas` as you see on line 6. I have an extra step on that same line where I add `as pd` which allows me to load `Pandas` but to give it a nickname so I do not have to write out `pandas` to then access a function.
+
+So as you see on line 7 where I load the csv file, I write `pd.read_csv`. Which means that I am using the function `read_csv` from the `pandas` library. But, since I had used `as pd`, I didn't have to write `pandas.read_csv`.
+
+On line 8, I write the code that will load my CSV file. I tell `Python` to use the `read_csv` function from `Pandas` where I use my `csv_path` object as an argument to the function to tell it which file to load. I also specify another argument for the object. This argument is a named argument called `delimiter`. This argument allows me to specify what in the file defines separation between cells. In this case, the file is stored as a CSV file, but it actually uses semi-colons, `;`, as the separator rather than a comma, `,`. Under the hood, `Pandas` is taking the data from the `WaffleDivorce.csv` file and is extracting it and then converting it into a `Pandas` `DataFrame` object by keying in on the delimiter that I specify. There are many other arguments that you can pass to the `Pandas` `read_csv` function that helps you work with separated-value files that may have other strange characteristics, but I recommend you looking at `Pandas`' official documentation to explore your options. Once loaded and placed in a `Pandas` `DataFrame` object, the object is then linked to the object `waffle_df` which allows me to refer back to the `Pandas` `DataFrame` later so that I do not have to re-extract the data later.
 
 ```{python}
 #| label: python-load-waffle-house
 #| eval: false
 # Define location of csv file
-csv_path='./data/WaffleDivorce.csv'
+csv_path='./data/2020-anes/anes.csv'
 
 # Pandas
     #* Import Pandas
@@ -80,25 +87,37 @@ waffle_df = pl.read_csv(csv_path, separator=';')
 waffle_df.head()
 ```
 
+I perform the same task but this time I extract the data and place it into a `Polars` `DataFrame` instead of pandas. On line 12, I import the `Polars` library and give it the nickname of `pl` similar to how I did with `pandas`. Notice how I do not give them the same nickname. I do this to be careful about confusing `Python` about whether I am referring to `Pandas` or `Polars`.
+
+On line 14, I extract the data and place it into a `Polars` dataframe with the `read_csv` function from the `Polars` library. In this case, `Polars` and `Python` both call their function `read_csv` if you are loading a separated-values file and are trying to place it into one of their `DataFrames`. As a side note, this is a problem that common users of `R` face where many are often much less explicit about the particular function they want to use than you are in `Python`. But in `Python`, we know that the `read_csv` functions are different and should produce two different types of `DataFrame` objects, `Pandas` or `Polars`, because we append the nickname of the library to the function name (e.g. `pd.read_csv` versus `pl.read_csv`).
+
+We see another difference on line 14. With `Polars`' `read_csv` function, I use the named argument `separator` as opposed to `delimiter`. These diverging choices in what to name these arguments for their `read_csv` functions are choices that the developers of the libraries chose. But, they do the same thing. The `separator` argument specifies what value separates the cells from each other. Which with the `WaffleDivorce.csv` file was a semi-colon, `;`.
+
 ```{python}
 #| label: profile-python-waffle-house-load
 #| include: false
+# Define path for csv file
+csv_path='../data/2020-anes/anes.csv'
 # Pandas
     #* Define a function to be ran through
-def pandas_load(path=csv_path):
+def pandas_extract_csv(path=csv_path):
     waffle_df = pd.read_csv(path, delimiter=';')
     return waffle_df
     #* Repeat through the defined function 100 times and make list of time taken
-pandas_load_time = timeit.repeat('pandas_load()', 'from __main__ import pandas_load', number=1, repeat=100)
+pandas_load_time = timeit.repeat('pandas_extract_csv()', 'from __main__ import pandas_extract_csv', number=1, repeat=100)
 
 # Polars
     #* Define a function to be ran through
-def polars_load(path=csv_path):
+def polars_extract_csv(path=csv_path):
     waffle_df = pl.read_csv(path, separator=';')
     return waffle_df
     #* Repeat through the defined function 100 times and make a list of time taken
-polars_load_time = timeit.repeat('polars_load()', 'from __main__ import polars_load', number = 1, repeat=100)
+polars_load_time = timeit.repeat('polars_extract_csv()', 'from __main__ import polars_extract_csv', number = 1, repeat=100)
 ```
+
+Keep in mind that this is the same file but I am extracting data from it with two different libraries and it produces two different types of `DataFrames`. The first is a `Pandas` `DataFrame` and the second is a `Polars` `DataFrame`. So, not only are the ways in which these packages extract the data different from each other but the resulting `DataFrames` are different. They are not different in that the contents of the tables are different, but rather the fundamentals of the table are different. As we will discuss in the chapters about data transformation, this has a pretty significant impact on how we think about transforming and interacting with our data in terms of what our code looks like and the performance of our code.
+
+But, to focus on differences in the performance of the data extraction task, I wanted to examine the speed at which these two libraries load the file, transform the data into a tabular format, and then assign it to a callable `DataFrame` object. For this particular file, the speed at which this happens is extremely quick because we are dealing with a small amount of data (50 rows and 13 columns). However, when we work with larger datasets that can be thousands of rows and hundreds of columns, the speed at which this data extraction occurs can decrease significantly. Importantly, the differences between both of these packages can also diverge. That is, `Polars` claims to have smaller decreases in speed relative to `Pandas` as we are operating with larger datasets. These differences between file sizes and between libraries increases significantly the larger these datasets become. But for now, I look at this particular dataset and how quickly these two libraries can extract the data.
 
 ```{python}
 #| output: asis
@@ -106,11 +125,15 @@ polars_load_time = timeit.repeat('polars_load()', 'from __main__ import polars_l
 print(f"I use the `timeit` package to calculate the average amount of time it took `Pandas` and `Polars` to load the WaffleDivorce.csv file 100 times. It took `Pandas` on average {mean(pandas_load_time):.2e} (Std. Deviation = {stdev(pandas_load_time):2e}) seconds while it took `Polars` an average of {mean(polars_load_time):.2e} (Std. Deviation = {stdev(polars_load_time):.2e}) seconds.")
 ```
 
-### R
+I am able to independently replicate `Polars`' claims that their library loads data quicker than `Pandas` does. The average differences in speed are extremely small. The results of this profiling (test of how long a set of code took to execute) are reported in scientific notation. However, as mentioned before, as we have more data we should expect the time it takes to load these files will increase for both `Pandas` and `Polars`, as well as the differences in the time between the two libraries. But demonstrating that latter comparison will be a task for the next chapter. Let us look at data extraction in `R`.
+
+### `R`
 
 ```{r}
 #| label: r-waffle-house-load
 #| eval: false
+# Define path to CSV
+csv_path <- './data/2020-anes/anes.csv'
 # Base R
     #* Load CSV file
 waffle_df <- read.csv(csv_path, sep=';')
@@ -128,6 +151,8 @@ head(waffle_df)
 ```{r}
 #| label: profile-r-waffle-house-load
 #| include: false
+# Define path to csv file
+csv_path <- './data/2020-anes/anes.csv'
 # Base R
     #* Clear tictoc log
 tic.clearlog()
@@ -164,7 +189,7 @@ cat(
 )
 ```
 
-### DuckDB via Python API
+### `DuckDB`
 
 ```{python}
 #| label: sql-load-waffle-house
@@ -173,7 +198,7 @@ cat(
 import duckdb as db
 
 # Use the Python API for DuckDB to connect to the database
-con = db.connect('./data/WaffleDivorce.db')
+con = db.connect('./data/2020-anes/anes.db')
 
 # Use the connection to load the dataset as a Polars DataFrame
 waffle_df = con.execute(# Execute the following SQL query ...
@@ -192,7 +217,7 @@ waffle_df.head()
 #| include: false
 # Polars
     #* Define a function to be ran through
-def duckdb_load(path=csv_path):
+def duckdb_extract_anes():
     waffle_df = con.sql(
         '''
         SELECT *
@@ -201,7 +226,7 @@ def duckdb_load(path=csv_path):
     ).pl()
     return waffle_df
     #* Repeat the defined function 100 times and make a list of time taken
-duckdb_load_time = timeit.repeat('polars_load()', 'from __main__ import polars_load', number = 1, repeat = 100)
+duckdb_load_time = timeit.repeat('duckdb_extract_anes', 'from __main__ import duckdb_extract_anes', number = 1, repeat = 100)
 ```
 
 ```{python}
@@ -209,6 +234,83 @@ duckdb_load_time = timeit.repeat('polars_load()', 'from __main__ import polars_l
 #| echo: false
 print(f"I use the `timeit` package to calculate the average amount of time it took the `DuckDB` API in `Python`  to load the main table from the WaffleDivorce.DB 100 times. It took `DuckDB` on average {mean(duckdb_load_time):.2e} (Std. Deviation = {stdev(duckdb_load_time):.2e}) seconds.")
 ```
+
+## Extracting data from Parquet files
+
+### `Python`
+
+```{python}
+#| label: python-load-parquet-anes
+#| eval: false
+# Specify location of Parquet file
+
+parquet_path='./data/2020-anes/anes.parquet'
+
+# Pandas
+    #* Load pandas
+import pandas as pd
+    #* Extract data from parquet file
+waffle_df = pd.read_parquet(parquet_path)
+
+# Polars
+    #* Load polars
+import polars as pl
+    #* Extract data from parquet file
+waffle_df = pl.read_parquet(parquet_path)
+```
+
+```{python}
+#| label: python-profile-load-parquet-anes
+#| include: false
+# Specify location of parquet file
+
+parquet_path='./data/2020-anes/anes.parquet'
+
+# Pandas
+def pandas_parquet_extract_anes(path=parquet_path):
+    waffle_df = pd.read_parquet(path)
+    return waffle_df
+
+pandas_parquet_anes_time = timeit.repeat('pandas_parquet_extract_anes', 'from __main__ import pandas_parquet_extract_anes', number=1, repeat=100)
+
+# Polars
+def polars_parquet_extract_anes(path=parquet_path):
+    waffle_dff = pl.read_parquet(path)
+    return waffle_df
+
+polars_parquet_anes_time = timeit.repeat('polars_parquet_extract_anes', 'from __main__ import polars_parquet_extract_anes', number=1, repeat=100)
+```
+
+### `R`
+
+### `DuckDB`
+
+## Extracting data from Proprietary file types (i.e., XLSX, DTA, SAV)
+
+### XLSX Files
+
+#### `Python`
+
+#### `R`
+
+#### `DuckDB`
+
+### DTA Files
+
+#### `Python`
+
+#### `R`
+
+#### `DuckDB`
+
+### SAV Files
+
+#### `Python`
+
+#### `R`
+
+#### `DuckDB`
+
 
 ```{python}
 #| label: close-db-connection

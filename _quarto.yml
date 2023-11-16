@@ -12,7 +12,7 @@ book:
     - ./chapter_4/index.qmd
     - references.qmd
 
-bibliography: references.bib
+bibliography: ./assets/data-management-book.bib
 
 format:
   titlepage-pdf:
@@ -32,6 +32,7 @@ format:
       affiliation-style: "none"
       affiliation-sep: "newline"
       elements: ["\\titleblock","\\authorblock","Last Compiled: 2023"]
+    code-line-numbers: true
     fig-pos: "b"
     toc: true
     lof: true
