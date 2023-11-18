@@ -192,21 +192,21 @@ pandas_extract_parquet_df = pl.DataFrame({
     "time":pandas_extract_parquet_time,
     "library":"Pandas",
     "language":"Python",
-    "task": "CSV"
+    "task": "Parquet"
 })
         #** Polars
 polars_extract_parquet_df = pl.DataFrame({
     "time":polars_extract_parquet_time,
     "library":"Polars",
     "language":"Python",
-    "task": "CSV"
+    "task": "Parquet"
 })
         #** Duckdb
 duckdb_extract_parquet_df = pl.DataFrame({
     "time":duckdb_extract_parquet_time,
     "library":"DuckDB",
     "language":"SQL",
-    "task": "CSV"
+    "task": "Parquet"
 })
         #** Concatenate
 parquet_df = pl.concat([pandas_extract_parquet_df, polars_extract_parquet_df, duckdb_extract_parquet_df])

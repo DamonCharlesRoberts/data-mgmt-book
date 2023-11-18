@@ -434,7 +434,7 @@ parquet_path <- './data/2020-anes/anes.parquet'
     #* Load the arrow package
 library(arrow)
     #* Extract the data from the parquet file and place it in a Tidyverse DataFrame
-anes_df <- read_arrow(parquet_path)
+anes_df <- read_parquet(parquet_path)
     #* Convert to a Base R DataFrame
 anes_df <- as.data.frame(anes_df)
 
@@ -442,7 +442,7 @@ anes_df <- as.data.frame(anes_df)
     #* Load arrow package
 library(arrow)
     #* Extract data from parquet file
-anes_df <- read_arrow(parquet_path)
+anes_df <- read_parquet(parquet_path)
 
 # Preview of dataframe
 head(anes_df)
