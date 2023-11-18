@@ -507,6 +507,17 @@ files = [
 ]
 
 [[package]]
+name = "et-xmlfile"
+version = "1.1.0"
+description = "An implementation of lxml.xmlfile for the standard library"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "et_xmlfile-1.1.0-py3-none-any.whl", hash = "sha256:a2ba85d1d6a74ef63837eed693bcb89c3f752169b0e3e7ae5b16ca5e1b3deada"},
+    {file = "et_xmlfile-1.1.0.tar.gz", hash = "sha256:8eb9e2bc2f8c97e37a2dc85a09ecdcdec9d8a396530a6d5a33b30b9a92da0c5c"},
+]
+
+[[package]]
 name = "executing"
 version = "2.0.1"
 description = "Get the currently executing AST node of a frame, and other information"
@@ -1292,6 +1303,20 @@ files = [
 ]
 
 [[package]]
+name = "openpyxl"
+version = "3.1.2"
+description = "A Python library to read/write Excel 2010 xlsx/xlsm files"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "openpyxl-3.1.2-py2.py3-none-any.whl", hash = "sha256:f91456ead12ab3c6c2e9491cf33ba6d08357d802192379bb482f1033ade496f5"},
+    {file = "openpyxl-3.1.2.tar.gz", hash = "sha256:a6f5977418eff3b2d5500d54d9db50c8277a368436f4e4f8ddb1be3422870184"},
+]
+
+[package.dependencies]
+et-xmlfile = "*"
+
+[[package]]
 name = "overrides"
 version = "7.4.0"
 description = "A decorator to automatically detect mismatch when overriding a method."
@@ -1627,6 +1652,44 @@ files = [
 
 [package.extras]
 plugins = ["importlib-metadata"]
+
+[[package]]
+name = "pyreadstat"
+version = "1.2.4"
+description = "Reads and Writes SAS, SPSS and Stata files into/from pandas data frames."
+optional = false
+python-versions = "*"
+files = [
+    {file = "pyreadstat-1.2.4-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:6d948b01d7b577e7c61734e487aa617307aec003856fa1205626fb16095bb4e0"},
+    {file = "pyreadstat-1.2.4-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:8c64ed7eaed4fd1b699b66a2a8368031948ab84c2f7035b6fae5336622f83104"},
+    {file = "pyreadstat-1.2.4-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9f02a5cf566cad33f72a6ca3804417c23e030ed76e98f7f84e8b7e8196eac97a"},
+    {file = "pyreadstat-1.2.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:841b66bc1ae82089d922191330230374f9f4ca22c1aced94d076e78849c7f7b8"},
+    {file = "pyreadstat-1.2.4-cp310-cp310-win_amd64.whl", hash = "sha256:b12721869d9d96df9f4bfcc6b2d2c531e47157ce9bd2b839be5827b29face04e"},
+    {file = "pyreadstat-1.2.4-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:37938120a10d47419107147c248d5e271a40dc1fb7e03f13ac60d98688599358"},
+    {file = "pyreadstat-1.2.4-cp311-cp311-macosx_11_0_x86_64.whl", hash = "sha256:f685fac207994adcb1539112ade3e009dba4c3c5a3b7c286b069bf002a471209"},
+    {file = "pyreadstat-1.2.4-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5429b59098a1d6f17096d14f9119923a02afb3f7aa8db6ef58c1a5dd27a401d9"},
+    {file = "pyreadstat-1.2.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7de126e85ca51fee4a75a81f25052e9bb5b74835f2746aa9b15202b8c0a75692"},
+    {file = "pyreadstat-1.2.4-cp311-cp311-win_amd64.whl", hash = "sha256:32e1a432a41513a85b000cf129329391ed3290744594d58eefea690dbb562f52"},
+    {file = "pyreadstat-1.2.4-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:d91cc826fc876741e6cae8a0999bcac8256d7d3412bd409dfabb447d2d0a0b73"},
+    {file = "pyreadstat-1.2.4-cp312-cp312-macosx_11_0_x86_64.whl", hash = "sha256:96647066526f1156c3af8f1a1e1c1f56465cc68a87ca660cbbbdf3de96bbbe15"},
+    {file = "pyreadstat-1.2.4-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c4a78bfd298c1960ec5ede30f8afb7bd9f797bc78698680340677b1c8e9c13b3"},
+    {file = "pyreadstat-1.2.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5546ee58a1b110d0ad42ba33b35a967f326f36ac59a2180e7053dd2612adaae8"},
+    {file = "pyreadstat-1.2.4-cp312-cp312-win_amd64.whl", hash = "sha256:ff28099924b4b5d10a684ac4d29598c3bebf803f33534624e35e1c52f3beaf77"},
+    {file = "pyreadstat-1.2.4-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:2956d117238741021ac72f46c7b53810f68565b316e14e4dc4ad7aeb62e2684b"},
+    {file = "pyreadstat-1.2.4-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:a5183d98d32fc7424db9157eb1d5fb7d814e4b5d35e9f810f64f9fc88bee503b"},
+    {file = "pyreadstat-1.2.4-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c04d584bff9857715d3afc01e82e81c9d1e0a7d34fc76a5b512fac6715898f9c"},
+    {file = "pyreadstat-1.2.4-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3252c9eaf4515b8e44cd5c452a4cd3bc1186696c6034f0afee0e1567ee277522"},
+    {file = "pyreadstat-1.2.4-cp38-cp38-win_amd64.whl", hash = "sha256:7696f679b93198585ba54b92552e8ee176587e9e82ee90a6b630a9fd41bceff4"},
+    {file = "pyreadstat-1.2.4-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:2646778f46955f6962081695cecfb98836b2e30a609f83e2ff4da303cc9c3768"},
+    {file = "pyreadstat-1.2.4-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:2b71bb95625c6ca8a9693bb9bc9960bb0d53bb113bc63d95543929c530cff473"},
+    {file = "pyreadstat-1.2.4-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9f46b4233d618f866af76140dcd2326c91199edff3d0d0586f0804a46a5f688c"},
+    {file = "pyreadstat-1.2.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:251058c285ca4e271c569eebd7f09f9a6afdf7efe0a9cf49878cc58b5c59be3e"},
+    {file = "pyreadstat-1.2.4-cp39-cp39-win_amd64.whl", hash = "sha256:a04606f871638158d9ec30c77a44dfdf0b996f433b6b156ab8c59878df722e42"},
+    {file = "pyreadstat-1.2.4.tar.gz", hash = "sha256:add5ad1c2e1a8054e6b50fa3fc085ca7e486c448bd24a3feb97ee91c2e097772"},
+]
+
+[package.dependencies]
+pandas = ">=1.2.0"
 
 [[package]]
 name = "python-dateutil"
@@ -2352,6 +2415,17 @@ files = [
 ]
 
 [[package]]
+name = "xlsx2csv"
+version = "0.8.1"
+description = "xlsx to csv converter"
+optional = false
+python-versions = "*"
+files = [
+    {file = "xlsx2csv-0.8.1-py3-none-any.whl", hash = "sha256:6c36c0295d64f231570479e514d6163ce135af3c431a1705b073230bedaef9f2"},
+    {file = "xlsx2csv-0.8.1.tar.gz", hash = "sha256:7ecd6d2bc2426f2e432f4fdac12211e1976d3cbb65f9033e1eda65edda2045e3"},
+]
+
+[[package]]
 name = "xlsxwriter"
 version = "3.1.9"
 description = "A Python module for creating Excel XLSX files."
@@ -2365,4 +2439,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "e635e454ae63aafe5ac0cc63e9854368ff2a929834474b984d3524a023f51ab8"
+content-hash = "cb20e149ec43e70e836bcff859e19f6aa368095506c81673c90cc7a5c1bc0833"

@@ -94,7 +94,7 @@ Installation of R is quite straightforward. The first thing that we will want to
 Once on the webpage, we will want to follow the link to "Download R for" the operating system that we are using. So if you are using a Mac, then you will want to follow the link to the "Download R for macOS". Once clicking on the link, it will take you to a page listing different releases of R. You will want to follow the most recent one. At the time of writing this book, that would be `R version 4.3.1`. 
 
 :::{.callout-note}
-# For macOS users
+##### For macOS users
 
 If you are installing `R` on a Mac, you cannot install any package of `R`. If you are using one of the newer Apple Silicon chips, then you should install the `R` package made for those using Apple silicon chips and not for Intel. For example, if you are trying to install `R` version 4.3.1, then you should follow the link `R-4.3.1-arm64.pkg` If you are using a Mac that has an Intel chip, then you should choose `R-4.3.1-x86_64.pkg`.
 :::
@@ -107,7 +107,7 @@ If you want to use `R` with `VSCode`, getting them to work together is pretty st
 
 Once installed, you may not be quite ready to run `R` in `VSCode` just yet. You should follow the steps in the "Getting Started" section of the page that you downloaded the extension from and view the extension's documentation for any extra requirements they may have for you to start running your `R` code in `VSCode`.
 
-### Illustration of `OOP` in `R`
+#### Illustration of `OOP` in `R`
 
 Going back to the discussion above about `OOP`, functions, and libraries in `R`. Here is some simple code to help give you an understanding of how `R` works. To follow along, you can open `VSCocde` and then create a new file called `my_first_r_file.R`. Since you are specifying that the file is an `R` file with the extension `.R`, `VSCode` will now expect to only see `R` code in that file.
 
@@ -200,7 +200,7 @@ As discussed before, there are plenty of functions that we might write that coul
 So, how can I access a library that someone else has written? It isn't too bad! There is a function that comes standard with `R`, in the `base-r` library, that allows us to access libraries uploaded to `CRAN`: `install.packages()`. With `install.packages()` all that we have to do is specify the name of the library we want to install, then when we can use those functions after loading them from the library that we've downloaded. ^[Functions from the `base-r` library automatically loads at the start of each `R` session. Functions from the libraries that do not come standard, the ones we had to install, require that we load the library at the start of an `R` session. Requiring that we load libraries at the start of each session ensures that we aren't loading a lot of junk libraries that we aren't using for our particular project but may have used for a different project. This keeps our `RAM` clearer and keeps our code more efficient.] Do not worry, there will be plenty of examples in the following chapters of this.
 
 :::{.callout-note}
-# How do I know the name of a library or whether a function exists?
+##### How do I know the name of a library or whether a function exists?
 
 There is no one way that this happens. I often stumble across useful libraries and functions within those libraries in different places of the internet, from talking with others, etc. As you go along, you'll begin to get more comfortable finding out these things yourself.
 
@@ -349,7 +349,7 @@ def addition(x = 1, y = 1):
 ```
 
 :::{.callout-note}
-# Notice the difference
+##### Notice the difference
 
 Unlike `R`, the main block of code for my function in `Python` is not within curly brackets. Instead, it is indented code. `Python` is extremely sensitive to the indentation in a way that `R` is much more flexible. In `Python` you should use 4 spaces for an indentation -- do not use the `tab` key as this can sometimes be an inconsistent number of spaces and may lead `Python` to throw you an error about improper indentation.
 
@@ -379,174 +379,6 @@ print(result)
 As `Python` is also an `OOP` language, I am capable of taking the code within the addition function that is stored as an object called "addition" and am able to reapply that code within the function to different inputs.
 
 Like in `R`, I am able to use various functions that come with the standard installation of `Python`. I will want to install libraries containing nifty functions as my code becomes more complex, though. In the next chapter, I will provide concrete examples of how to install and work with some common libraries for data management. 
-
-### `Julia`
-
-```{r}
-#| label: jl-setup
-#| eval: true
-#| include: false
-# Need to setup julia
-library(JuliaCall)
-julia_setup()
-```
-
-Like `R`, `Julia` is specifically designed for scientific statistical computing. It is a much newer language than `R`, however. `Julia` has started to gain some traction in some areas of machine learning engineering, some circles of data science and in academia. It still remains relatively uncommon, however. The main reason that it remains relatively uncommon is how new it is. It is also much more dedicated to statistical computing than the other languages which makes it relatively narrow in the tasks that it can complete compared to `Python` and even `R`. 
-
-The appeal of `Julia` is that it is an extremely efficient and reproducible language. The language is not as bogged down as languages like `R` and `Python` which reduces a lot of problems. It also has built in support for virtual environments so that one does not have to jump through as many hoops to install, manage, and document the libraries that someone uses for their project.
-
-Julia also has some really interesting features such as allowing you to use scientific and greek symbols as object names. `Python` and `R` does not allow you to do this. While this might be a small feature for some, others it may be super useful. So there is that.
-
-In a time where people are wanting to publish papers faster, are using more data, and are dealing with concerns about how reproducible their results are, `Julia` certainly seems like a language that could eventually become extremely popular in academia. It is already gaining some success in many sectors of industry as a language that reduces the amount of time that analysts are spending to produce reports.
-
-#### Installation
-
-Thankfully, the installation of `Julia` is also quite straightforward. You will want to follow this link: [https://julialang.org/downloads/#download_julia](https://julialang.org/downloads/#download_julia).
-
-Once on the webpage to download the latest version of `Julia` (at the time of writing this was `Julia 1.9.2). If you are on Windows, you should follow the link to install the Windows 64-bit installer. If you are on a Mac with a non-intel processor, you should follow the link to install the macOS (Apple Silicon) 64-bit (.dmg). If you are on a Mac with a intel processor, then you should follow the link to install the macOS x86 (Intel or Rosetta) 64-bit (.dmg). If you are on linux, you should follow the most appropriate option for your setup.
-
-Once you have downloaded the installation file, you should do a default install and follow the normal installation steps you take for an application. You should not need to make any customizations to the installation (such as installation destination).
-
-#### Setting up VSCode with `Julia`
-
-Like the other languages, working with `Julia` in `VSCode` is not too hard to setup. You can go to [https://marketplace.visualstudio.com/VSCode](https://marketplace.visualstudio.com/VSCode). Once there, you can search "Julia". The first option should be an extension called "Julia". You can install the extension by clicking the "Install button".
-
-Once installed, you may not be quite ready to run `Julia` in `VSCode` just yet. You should follow the steps in the "Getting Started" section of the page that you downloaded the extension form and view the extension's documentation for any extra requirements they may have for you to start running your `Julia` code in `VSCode`.
-
-#### Illustration of `OOP` in `Julia`
-
-Like the other languages so far, `Julia` is also an `OOP` language. To follow along with my examples below, you can open `VSCode` and then create a new file called `my_first_julia_file.jl`. You are specifying the file as being a `Julia` file with the extension `.jl`.
-
-Like the other languages, you can add a comment to your file using the hash or pound symbol. Any characters that follow will not be evaluated by `Julia`. For example
-
-```{julia}
-#| label: jl-comment
-#| eval: false
-#| echo: true
-# This is a comment in Julia
-# Any characters that you place after a "#"
-# Will not be evaluated as code
-```
-
-Now let's evaluate the expression `2+2` in `Julia`:
-
-```{julia}
-#| label: jl-simple-expression
-#| eval: false
-#| echo: true
-2+2 # add 2 and 2 together
-```
-
-Like in the other languages, the code looks exactly the same. But once we start to do more complicated tasks, we will start to notice the differences in the syntax of the languages.
-
-Like in the other languages, if we want to evaluate this `Julia` code, we can highlight the code and click the play button (sideways triangle) at the top of our `VSCode` window. This will run the highlighted code.
-
-Unlike the other coding languages, instead of opening a console specific to that language, `Julia` will open an instance of the `Julia REPL`. It is not necessary to understand the differences between the two, but how you interact with them will look slightly differently. The reason for these differences is  that the goal of `Julia` is for the code to be interactively run as opposed to run as a whole file like is the common expectation with `Python` and to a lesser extent `R`. If you get an error from `VSCode` telling you that the `REPL` is in a different directory than the file, then you may want to go to the top of your `VSCode` window, click on "File", then click on "Open Folder", then choose the folder that you stored your `my_first_julia_file.jl` in. This then should solve the issue and the code should successfully run.
-
-Like we did with the other languages, say that we want to store the result of this into an object. We can do that. Like `Python`, the assignment operator in `Julia` is `=`. I will evaluate the expression `2+2` but store it in an object called "result."
-
-Once I have created the result object, I can use that object to add 2 to it and store that result in an object called "result_two" like I did in the other examples. Unlike the other coding languages, `Julia` should automatically print the value stored in my "result_two" object. If I wanted, I could also use a native `print()` function to print the value for "result_two".
-
-```{julia}
-#| label: jl-simple-objects
-#| eval: false
-#| echo: true
-# add 2 and 2 together, store it in an object called result
-result = 2 + 2
-# add 2 to result, store it in an object called result_two
-result_two = result + 2
-# show me the value of result_two
-print(result_two)
-```
-
-```{r}
-#| label: jlEval-simple-objects
-#| eval: true
-#| echo: false
-# add 2 and 2 together, store it in an objected called result
-julia_command("result = 2+2")
-# add 2 to result, store it in an objected called result_two
-julia_command("result_two = result + 2")
-# show me the the value of result_two
-julia_command("print(result_two)")
-```
-
-Like I did with the other languages, let's say that I want to change this to a function so that I do not have to keep repeating myself.
-
-I'll write a function that I will call "addition". The function will take the inputs `x` and `y`, which will be two integers I want to add together.^[Previously, I was able to name the parameters whatever I wanted, but `Julia` is specifically designed for scientific computing and so it is not as flexible.] Once I have provided the basic information about the function, I'll specify what I want `Julia` to do with those inputs. Like in `Python`, I will use indentation to indicate what code should be included with the function. This time I do not put a colon at the end of the basic information about the function. Unlike `Python`, I will explicitly define the end of the function. Whereas `Python` waits for the first line of code that is not indented to close the function, `Julia` has me type "end" where I want the function to end. Notice that the "end" is not indented.
-
-```{julia}
-#| label: jl-simple-fxn
-#| eval: false
-#| echo: true
-# define a function called addition
-    #* take the parameters x and y
-    #* take the arguments for x and y, should be an integer
-function addition(x,y)
-    # take the parameters x and y
-    # add them together
-    temp_result = x + y
-    # return the temp_result object
-    # and forget the value for the object once returned
-    return temp_result
-end
-```
-
-```{r}
-#| label: jl-eval-simple-fxn
-#| eval: false
-#| echo: false
-# define a function called addition
-  #* take the parameters x and y
-  #* take the arguments for x and y, should be an integer
-  #* and return the result
-julia_command(
-  "
-  function addition(x,y)
-      # take the parameters x and y
-      # add them together
-      temp_result = x + y
-      # return the temp_result object
-      # and forget the value for the object once returned
-      return temp_result
-  end
-  "
-)
-```
-
-```{julia}
-#| label: jl-using-fxn
-#| eval: false
-#| echo: true
-# use the addition function
-# to add 2 and 2 together
-# store the result of the function in an object called result
-result = addition(2,2)
-# print the value of the result
-print(result)
-# use the addition function
-# this time to add 10 and 10 together
-# store the result of the function in an object called result
-result = addition(10,10)
-# print the value of result
-print(result)
-```
-
-```{r}
-#| label: jl-eval-using-fxn
-#| eval: false
-#| echo: false
-# use the addition function
-# to add 2 and 2 together
-# store the result of the function in an object called result
-julia_command("result = addition(2,2)")
-# use the addition funciton
-# this time to add 10 and 10 together
-# store the result of the function in an object called result
-julia_command("result = addition(10,10)")
-```
-
-`Julia` is a little bit different than the other `OOP` languages we have used so far. It is `OOP`-enough, but not quite `OOP` like the other languages so far. As we saw here, we can have objects own our results, but we can't really make functions the same way we do with the other languages. There is a discussion that we have elaborating on all of these points that are rather niche, just know that we can do *some* `OOP` stuff in `Julia` but not in the same way as languages like `R` and `Python`.
 
 ### SQL via Duckdb
 

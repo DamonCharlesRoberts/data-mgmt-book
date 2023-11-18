@@ -46,6 +46,6 @@ format:
     include-after-body:
       text: |
         \printindex
-jupyter: python3
+engine: knitr
 execute:
   cache: false

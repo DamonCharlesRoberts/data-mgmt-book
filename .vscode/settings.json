@@ -1,5 +1,10 @@
 {
   "sqltools.connections": [],
 "sqltools.useNodeRuntime": true,
-"r.lsp.promptToInstall": false
+"r.lsp.promptToInstall": false,
+"cSpell.words": [
+    "Functionalizing",
+    "profilings",
+    "timeseries"
+]
 }

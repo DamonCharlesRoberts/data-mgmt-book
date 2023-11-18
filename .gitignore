@@ -4,3 +4,5 @@
 /.luarc.json
 # Files I want to ignore
 data/
+**/index_files/
+.Rprofile
